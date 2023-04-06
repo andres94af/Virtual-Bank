@@ -15,64 +15,77 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 
-
 @Entity
 @Table(name = "usuarios")
 public class Usuario {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	@NotEmpty
 	private String nombre;
-	
+
 	@NotEmpty
 	private String apellido;
-	
+
 	@NotNull
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date fechaNacimiento;
-	
+
+	@NotEmpty
+	private String nacionalidad;
+
 	@NotEmpty
 	private String direccion;
-	
+
 	@NotEmpty
 	private String telefono;
-	
+
 	@NotEmpty
 	@Column(unique = true)
 	@Email
 	private String email;
-	
+
 	@NotEmpty
 	private String genero;
-	
+
 	private String rol;
-	
+
 	@NotEmpty
 	@Column(unique = true)
 	private String username;
-	
+
 	@NotEmpty
 	private String password;
-	
+
 	private String numeroCuenta;
-	
+
 	private double saldo;
-	
+
+	private double limite;
+
 	private boolean activo;
-	
+
 	@OneToMany(mappedBy = "usuario")
 	private List<Movimientos> movimientos;
+	
+	@OneToMany(mappedBy = "usuario")
+	private List<RegistroIngreso> registroIngreso;
+
+	public Usuario() {
+	}
 
 	public Usuario(Integer id, @NotEmpty String nombre, @NotEmpty String apellido, @NotNull Date fechaNacimiento,
-			@NotEmpty String direccion, @NotEmpty String telefono, @NotEmpty @Email String email, @NotEmpty String genero,
-			String rol, @NotEmpty String username, @NotEmpty String password, String numeroCuenta, double saldo, boolean activo) {
+			@NotEmpty String nacionalidad, @NotEmpty String direccion, @NotEmpty String telefono,
+			@NotEmpty @Email String email, @NotEmpty String genero, String rol, @NotEmpty String username,
+			@NotEmpty String password, String numeroCuenta, double saldo, double limite, boolean activo,
+			List<Movimientos> movimientos, List<RegistroIngreso> registroIngreso) {
 		this.id = id;
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.fechaNacimiento = fechaNacimiento;
+		this.nacionalidad = nacionalidad;
 		this.direccion = direccion;
 		this.telefono = telefono;
 		this.email = email;
@@ -81,11 +94,12 @@ public class Usuario {
 		this.username = username;
 		this.password = password;
 		this.numeroCuenta = numeroCuenta;
-		this.activo = activo;
 		this.saldo = saldo;
+		this.limite = limite;
+		this.activo = activo;
+		this.movimientos = movimientos;
+		this.registroIngreso = registroIngreso;
 	}
-	
-	public Usuario() {}
 
 	public Integer getId() {
 		return id;
@@ -207,12 +221,35 @@ public class Usuario {
 		this.movimientos = movimientos;
 	}
 
+	public String getNacionalidad() {
+		return nacionalidad;
+	}
+
+	public void setNacionalidad(String nacionalidad) {
+		this.nacionalidad = nacionalidad;
+	}
+
+	public double getLimite() {
+		return limite;
+	}
+
+	public void setLimite(double limite) {
+		this.limite = limite;
+	}
+
+	public List<RegistroIngreso> getRegistroIngreso() {
+		return registroIngreso;
+	}
+
+	public void setRegistroIngreso(List<RegistroIngreso> registroIngreso) {
+		this.registroIngreso = registroIngreso;
+	}
+
 	@Override
 	public String toString() {
-		return "Usuario [id=" + id + ", nombre=" + nombre + ", apellido=" + apellido + ", email=" + email + ", username="
-				+ username + ", Numero de cuenta=" + numeroCuenta + ", saldo=" + saldo + ", activo=" + activo + "]";
+		return "Usuario [id=" + id + ", nombre=" + nombre + ", apellido=" + apellido + ", email=" + email + ", rol=" + rol
+				+ ", username=" + username + ", numeroCuenta=" + numeroCuenta + ", limite=" + limite + ", activo=" + activo
+				+ "]";
 	}
-	
-	
-	
+
 }

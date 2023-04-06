@@ -23,22 +23,22 @@
             <a class="nav-link" th:href="@{/}">Inicio</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" th:href="@{/usuario/misDatos}">Mis datos</a>
+            <a class="nav-link" th:href="@{/usuario/misDatos}" th:unless="${sesion==null}">Mis datos</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" th:href="@{/usuario/movimientos}">Movimientos</a>
+            <a class="nav-link" th:href="@{/usuario/movimientos}" th:unless="${sesion==null}">Movimientos</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" th:href="@{/usuario/transferencias}">Transferencias</a>
+            <a class="nav-link" th:href="@{/usuario/transferencias}" th:unless="${sesion==null}">Transferencias</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" th:href="@{/usuario/cajero}">Cajero virtual</a>
+            <a class="nav-link" th:href="@{/usuario/cajero}" th:unless="${sesion==null}">Cajero virtual</a>
           </li>
         </ul>
         <span class="navbar-text">
-          <a class="nav-link" th:href="@{/login}">Ingresar</a>
+          <a class="nav-link" th:href="@{/login}" th:if="${sesion==null}">Ingresar</a>
         </span>
-        <span class="navbar-text">
+        <span class="navbar-text" th:unless="${sesion==null}">
           <a class="nav-link" th:href="@{/logout}">Salir</a>
         </span>
       </div>
@@ -61,7 +61,5 @@
       document.getElementById("current_date").innerHTML = date.getFullYear();
     </script>
   </footer>
-
 </body>
-
 </html>
