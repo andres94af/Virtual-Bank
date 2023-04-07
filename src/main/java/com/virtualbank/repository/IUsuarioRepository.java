@@ -8,5 +8,5 @@ import com.virtualbank.model.Usuario;
 
 @Repository
 public interface IUsuarioRepository extends JpaRepository<Usuario, Integer>{
-	Optional<Usuario> findByUsername(String username);
+	Optional<Usuario> findByEmail(String email);
 }

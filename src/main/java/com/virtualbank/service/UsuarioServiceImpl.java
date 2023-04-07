@@ -33,8 +33,8 @@ public class UsuarioServiceImpl implements IUsuarioService{
 	}
 
 	@Override
-	public Optional<Usuario> findByUsername(String username) {
-		return usuarioRepo.findByUsername(username);
+	public Optional<Usuario> findByEmail(String email) {
+		return usuarioRepo.findByEmail(email);
 	}
 
 	@Override

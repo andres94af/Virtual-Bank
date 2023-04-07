@@ -20,28 +20,31 @@
       <div class="collapse navbar-collapse" id="navbarText">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <a class="nav-link" th:href="@{/}">Inicio</a>
+            <a class="nav-link" th:href="@{/}" >Inicio</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" th:href="@{/cuentas}">Cuentas</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" th:if="${sesion!=null}">
             <a class="nav-link" th:href="@{/misDatos}">Mis datos</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" th:if="${sesion!=null}">
             <a class="nav-link" th:href="@{/movimientos}">Movimientos</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" th:if="${sesion!=null}">
             <a class="nav-link" th:href="@{/transferencias}">Transferencias</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" th:if="${sesion!=null}">
             <a class="nav-link" th:href="@{/cajero}">Cajero virtual</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/cuentas}">Contacta con nosotros</a>
+          </li>
         </ul>
-        <span class="navbar-text">
+        <span class="navbar-text"  th:unless="${sesion!=null}">
           <a class="nav-link" th:href="@{/login}">Ingresar</a>
         </span>
-        <span class="navbar-text">
+        <span class="navbar-text" th:if="${sesion!=null}">
           <a class="nav-link" th:href="@{/logout}">Salir</a>
         </span>
       </div>
