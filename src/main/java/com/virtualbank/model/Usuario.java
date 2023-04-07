@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -28,8 +30,12 @@ public class Usuario {
 
 	@NotEmpty
 	private String apellido;
+	
+	@NotEmpty
+	private String dni;
 
 	@NotNull
+	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date fechaNacimiento;
 
@@ -76,14 +82,15 @@ public class Usuario {
 	public Usuario() {
 	}
 
-	public Usuario(Integer id, @NotEmpty String nombre, @NotEmpty String apellido, @NotNull Date fechaNacimiento,
-			@NotEmpty String nacionalidad, @NotEmpty String direccion, @NotEmpty String telefono,
-			@NotEmpty @Email String email, @NotEmpty String genero, String rol, @NotEmpty String username,
-			@NotEmpty String password, String numeroCuenta, double saldo, double limite, boolean activo,
-			List<Movimientos> movimientos, List<RegistroIngreso> registroIngreso) {
+	public Usuario(Integer id, @NotEmpty String nombre, @NotEmpty String apellido, @NotEmpty String dni,
+			@NotNull Date fechaNacimiento, @NotEmpty String nacionalidad, @NotEmpty String direccion,
+			@NotEmpty String telefono, @NotEmpty @Email String email, @NotEmpty String genero, String rol,
+			@NotEmpty String username, @NotEmpty String password, String numeroCuenta, double saldo, double limite,
+			boolean activo, List<Movimientos> movimientos, List<RegistroIngreso> registroIngreso) {
 		this.id = id;
 		this.nombre = nombre;
 		this.apellido = apellido;
+		this.dni = dni;
 		this.fechaNacimiento = fechaNacimiento;
 		this.nacionalidad = nacionalidad;
 		this.direccion = direccion;
@@ -245,11 +252,20 @@ public class Usuario {
 		this.registroIngreso = registroIngreso;
 	}
 
-	@Override
-	public String toString() {
-		return "Usuario [id=" + id + ", nombre=" + nombre + ", apellido=" + apellido + ", email=" + email + ", rol=" + rol
-				+ ", username=" + username + ", numeroCuenta=" + numeroCuenta + ", limite=" + limite + ", activo=" + activo
-				+ "]";
+	public String getDni() {
+		return dni;
 	}
 
+	public void setDni(String dni) {
+		this.dni = dni;
+	}
+
+	@Override
+	public String toString() {
+		return "Usuario [id=" + id + ", nombre=" + nombre + ", apellido=" + apellido + ", dni=" + dni + ", fechaNacimiento="
+				+ fechaNacimiento + ", nacionalidad=" + nacionalidad + ", direccion=" + direccion + ", telefono=" + telefono
+				+ ", email=" + email + ", genero=" + genero + ", rol=" + rol + ", username=" + username + ", password="
+				+ password + ", numeroCuenta=" + numeroCuenta + ", saldo=" + saldo + ", limite=" + limite + ", activo=" + activo
+				+ ", movimientos=" + movimientos + ", registroIngreso=" + registroIngreso + "]";
+	}
 }
