@@ -68,6 +68,8 @@ public class Usuario {
 	private String numeroCuenta;
 
 	private double saldo;
+	
+	private String tipoDeCuenta;
 
 	private double limite;
 
@@ -86,7 +88,7 @@ public class Usuario {
 			@NotNull Date fechaNacimiento, @NotEmpty String nacionalidad, @NotEmpty String direccion,
 			@NotEmpty String telefono, @NotEmpty @Email String email, @NotEmpty String genero, String rol,
 			@NotEmpty String username, @NotEmpty String password, String numeroCuenta, double saldo, double limite,
-			boolean activo, List<Movimientos> movimientos, List<RegistroIngreso> registroIngreso) {
+			boolean activo, List<Movimientos> movimientos, List<RegistroIngreso> registroIngreso, String tipoDeCuenta) {
 		this.id = id;
 		this.nombre = nombre;
 		this.apellido = apellido;
@@ -106,6 +108,7 @@ public class Usuario {
 		this.activo = activo;
 		this.movimientos = movimientos;
 		this.registroIngreso = registroIngreso;
+		this.tipoDeCuenta = tipoDeCuenta;
 	}
 
 	public Integer getId() {
@@ -259,13 +262,25 @@ public class Usuario {
 	public void setDni(String dni) {
 		this.dni = dni;
 	}
+	
+
+	public String getTipoDeCuenta() {
+		return tipoDeCuenta;
+	}
+
+	public void setTipoDeCuenta(String tipoDeCuenta) {
+		this.tipoDeCuenta = tipoDeCuenta;
+	}
 
 	@Override
 	public String toString() {
 		return "Usuario [id=" + id + ", nombre=" + nombre + ", apellido=" + apellido + ", dni=" + dni + ", fechaNacimiento="
 				+ fechaNacimiento + ", nacionalidad=" + nacionalidad + ", direccion=" + direccion + ", telefono=" + telefono
 				+ ", email=" + email + ", genero=" + genero + ", rol=" + rol + ", username=" + username + ", password="
-				+ password + ", numeroCuenta=" + numeroCuenta + ", saldo=" + saldo + ", limite=" + limite + ", activo=" + activo
-				+ ", movimientos=" + movimientos + ", registroIngreso=" + registroIngreso + "]";
+				+ password + ", numeroCuenta=" + numeroCuenta + ", saldo=" + saldo + ", tipoDeCuenta=" + tipoDeCuenta
+				+ ", limite=" + limite + ", activo=" + activo + ", movimientos=" + movimientos + ", registroIngreso="
+				+ registroIngreso + "]";
 	}
+
+	
 }

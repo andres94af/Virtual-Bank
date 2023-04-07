@@ -20,8 +20,8 @@ public class HomeController {
 	
 	@GetMapping("/cuentas")
 	private String verTiposDeCuentas(Model model) {
-		model.addAttribute("titulo", "Tipos de cuenta");
-		return "datosPersonales";
+		model.addAttribute("titulo", "Cuentas de Virtual Bank");
+		return "cuentas";
 	}
 	
 	@GetMapping("/misDatos")
