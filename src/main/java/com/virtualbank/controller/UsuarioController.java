@@ -24,6 +24,7 @@ public class UsuarioController {
 	
 	BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 	
+//METODO QUE LLEVA AL FORMULARIO PARA CREAR UNA CUENTA BASICA
 @GetMapping("/registro/c-basica")
 private String vistaRegistroCBasica(Model model) {
 	model.addAttribute("tipoCuenta", "Cuenta Basica");
@@ -31,6 +32,7 @@ private String vistaRegistroCBasica(Model model) {
 	return "registro";
 }
 
+//METODO QUE LLEVA AL FORMULARIO PARA CREAR UNA CUENTA JOVEN
 @GetMapping("/registro/c-joven")
 private String vistaRegistroCJoven(Model model) {
 	model.addAttribute("tipoCuenta", "Cuenta Joven");
@@ -38,6 +40,7 @@ private String vistaRegistroCJoven(Model model) {
 	return "registro";
 }
 
+//METODO PARA GUARDAR USUARIO EN LA BBDD
 @GetMapping("/registrarUsuario")
 private String registrarUsuario(Usuario usuario) {
 	usuario.setPassword(encoder.encode(usuario.getPassword()));
@@ -51,6 +54,7 @@ private String registrarUsuario(Usuario usuario) {
 	return "redirect:/login";
 }
 
+//METODO QUE DA EL ATRIBUTO A "idusuario" AL MOMENTO DE INICIAR SESION
 @GetMapping("/acceder")
 public String iniciarSesion(Usuario usuario, HttpSession session, Model model) {
 	Optional<Usuario> user = usuarioService.findById(Integer.parseInt(session.getAttribute("idusuario").toString()));

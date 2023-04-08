@@ -34,10 +34,10 @@ public class MailService {
 	
 	
 	public void enviarMailContacto(String nombre, String email, String telefono, String asunto, String mensaje) {
-		String mensajeCompleto = "<p>Nombre de contacto: " + nombre + " </p>"
-													+ "<p>Telefono de contacto: " + telefono + " </p>"
-													+ "<p>Email de contacto: " + email + " </p>"
-													+ "<p>Mensaje: " + mensaje + " </p>";
+		String mensajeCompleto = "Nombre de contacto: " + nombre
+													+ "<br/>Telefono de contacto: " + telefono
+													+ "<br/>Email de contacto: " + email
+													+ "<br/><br/>Mensaje: " + mensaje;
 		inicializarSesion();
 		try {
 			MimeMessage message = new MimeMessage(session);

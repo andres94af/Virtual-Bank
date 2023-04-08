@@ -20,37 +20,33 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarText">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item" th:if="${sesion!=null}">
-            <a class="nav-link active">Hola [[${#httpServletRequest.remoteUser}]] !</a>
-          </li>
           <li class="nav-item">
             <a class="nav-link" th:href="@{/}" >Inicio</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" th:href="@{/cuentas}">Cuentas</a>
           </li>
-          <li class="nav-item" th:if="${sesion!=null}">
-            <a class="nav-link" th:href="@{/misDatos}">Mis datos</a>
-          </li>
-          <li class="nav-item" th:if="${sesion!=null}">
-            <a class="nav-link" th:href="@{/movimientos}">Movimientos</a>
-          </li>
-          <li class="nav-item" th:if="${sesion!=null}">
-            <a class="nav-link" th:href="@{/transferencias}">Transferencias</a>
-          </li>
-          <li class="nav-item" th:if="${sesion!=null}">
-            <a class="nav-link" th:href="@{/cajero}">Cajero virtual</a>
-          </li>
           <li class="nav-item">
             <a class="nav-link" th:href="@{/contacto}">Contacta con nosotros</a>
           </li>
         </ul>
         <span class="navbar-text"  th:unless="${sesion!=null}">
-          <a class="nav-link" th:href="@{/login}">Ingresar</a>
-        </span>
-        <span class="navbar-text" th:if="${sesion!=null}">
-          <a class="nav-link" th:href="@{/logout}">Cerrar sesión</a>
-        </span>
+          <a class="nav-link" th:href="@{/login}">Acceso clientes</a>
+       </span>
+          <div class="btn-group" th:if="${sesion!=null}">
+			  <a type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #FED102;">
+			  	Cuenta de [[${#httpServletRequest.remoteUser}]]
+			  </a>
+			   <div class="dropdown-menu">
+			    <a class="dropdown-item" th:href="@{/cliente/home_cliente}">Informacion general</a>
+			    <a class="dropdown-item" th:href="@{/cliente/mis_datos}">Mis datos</a>
+   			    <a class="dropdown-item" th:href="@{/cliente/transferencias}">Transferencias</a>
+			    <a class="dropdown-item" th:href="@{/cliente/movimientos}">Movimientos</a>
+			    <a class="dropdown-item" th:href="@{/cliente/cajero}">Cajero virtual</a>
+			    <div class="dropdown-divider"></div>
+			    <a class="dropdown-item" th:href="@{/logout}">Cerrar sesión</a>
+			  </div>
+			</div>
       </div>
       </div>
     </nav>
