@@ -29,7 +29,7 @@ public class HomeController {
 
 	@GetMapping("/cuentas")
 	private String verTiposDeCuentas(Model model, HttpSession session) {
-		model.addAttribute("titulo", "Cuentas de Virtual Bank");
+		model.addAttribute("titulo", "Descubre las cuentas que tenemos para ti..");
 		model.addAttribute("sesion", session.getAttribute("idusuario"));
 		System.out.println(session.getAttribute("idusuario"));
 		return "cuentas";
@@ -86,6 +86,7 @@ public class HomeController {
 
 	@GetMapping("/login")
 	public String loginPage(Model model) {
+		model.addAttribute("titulo", "Inicia sesión en tu cuenta");
 		return "login";
 	}
 
