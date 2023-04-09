@@ -1,7 +1,7 @@
 package com.virtualbank.controller;
 
+import java.util.Optional;
 import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
+import com.virtualbank.model.Usuario;
+import com.virtualbank.service.IRegistroIngresoService;
+import com.virtualbank.service.IUsuarioService;
 import com.virtualbank.service.MailService;
 
 @Controller
@@ -18,6 +20,12 @@ public class HomeController {
 	
 	@Autowired
 	private MailService mailService;
+	
+	@Autowired
+	private IRegistroIngresoService registroIngresoService;
+	
+	@Autowired
+	private IUsuarioService usuarioService;
 
 //METODO QUE REDIRECCIONA A LA VISTA HOME
 	@GetMapping("")
@@ -47,8 +55,10 @@ public class HomeController {
 //METODO QUE REDIRECCIONA A LA VISTA DE DATOS DEL CLIENTE
 	@GetMapping("/cliente/home_cliente")
 	private String homeCliente(Model model, HttpSession session) {
+		Optional<Usuario> usuario = usuarioService.findById(Integer.parseInt(session.getAttribute("idusuario").toString()));
 		model.addAttribute("titulo", "Home Cliente");
 		model.addAttribute("sesion", session.getAttribute("idusuario"));
+		model.addAttribute("ultimoIngreso", registroIngresoService.findLast(usuario.get()));
 		return "cliente/home_cliente";
 	}
 

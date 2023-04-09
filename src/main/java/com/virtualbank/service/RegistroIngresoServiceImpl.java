@@ -3,6 +3,7 @@ package com.virtualbank.service;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,6 +41,21 @@ public class RegistroIngresoServiceImpl implements IRegistroIngresoService{
 		RegistroIngreso registro = new RegistroIngreso(dia, hora, usuario);
 		save(registro);
 		return registro;
+	}
+
+	@Override
+	public RegistroIngreso findLast(Usuario usuario) {
+		List<RegistroIngreso> listaDeIngresos = findByUsuario(usuario);
+		Integer ultimoId = listaDeIngresos.size();
+		if (!ultimoId.equals(1)) {
+			return findById(ultimoId-1).get();			
+		}
+		return findById(1).get();
+	}
+
+	@Override
+	public Optional<RegistroIngreso> findById(Integer id) {
+		return registroRepo.findById(id);
 	}
 
 }

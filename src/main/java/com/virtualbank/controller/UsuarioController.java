@@ -9,8 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import com.virtualbank.model.RegistroIngreso;
 import com.virtualbank.model.Usuario;
 import com.virtualbank.service.IRegistroIngresoService;
 import com.virtualbank.service.IUsuarioService;
@@ -54,9 +52,7 @@ private String registrarUsuario(Usuario usuario) {
 	usuario.setRol("CLI");
 	usuario.setSaldo(0);
 	usuarioService.save(usuario);
-	System.out.println("El usuario guardado fue: " + usuario);
-	RegistroIngreso registro = registrarIngresoService.nuevoRegistro(usuario);
-	System.out.println("El registro guardado fue: " + registro);
+	registrarIngresoService.nuevoRegistro(usuario);
 	return "redirect:/login";
 }
 
@@ -72,7 +68,7 @@ public String iniciarSesion(HttpSession session, Model model) {
 			return "redirect:/";
 		}else {
 			model.addAttribute("rol", "CLI");
-			return "redirect:/";
+			return "redirect:/cliente/home_cliente";
 		}
 	}
 	return "redirect:/";
