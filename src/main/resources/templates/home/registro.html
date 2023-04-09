@@ -7,13 +7,14 @@
 	<header th:replace="layout/layout.html :: header"></header>
 	<div class="container py-2">
 		<h2 class="text-center" th:text="${titulo}"></h2>
-		<h4 class="text-center text-secondary" th:text="${tipoCuenta}"></h4>
+		<h4 class="text-center text-secondary" th:text="${tipoDeCuenta}"></h4>
 	</div>
 	<div class="container py-3 h-100">
 		<div class="card" style="border-radius: 1rem;">
 			<div class="card-body p-4 p-lg-4 text-black">
 				<form th:action="@{/usuario/registrarUsuario}">
-				<input type="hidden" id="tipoDeCuenta" name="tipoDeCuenta" th:value="${tipoCuenta}"/>
+				<input type="hidden" id="tipoDeCuenta" name="tipoDeCuenta" th:value="${tipoDeCuenta}"/>
+				<input type="hidden" id="interes" name="interes" th:value="${interes}"/>
 					<div class="form-row">
 						<div class="form-group col-md-4">
 							<label for="nombre">Nombre :</label> <input type="text"
@@ -46,8 +47,8 @@
 							<label for="genero">Genero :</label> <select id="genero"
 								name="genero" class="form-control">
 								<option selected>--Seleccione una opción--</option>
-								<option value="Fem">Femenino</option>
-								<option value="Masc">Masculino</option>
+								<option value="F">Femenino</option>
+								<option value="M">Masculino</option>
 								<option value="Otro">Otro</option>
 							</select>
 						</div>

@@ -9,5 +9,6 @@ public interface IRegistroIngresoService {
 	
 	List<RegistroIngreso> findAll();
 	List<RegistroIngreso> findByUsuario(Usuario usuario);
-	
+	RegistroIngreso save(RegistroIngreso registro);
+	RegistroIngreso nuevoRegistro(Usuario usuario);
 }

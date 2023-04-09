@@ -25,7 +25,7 @@ public class HomeController {
 		model.addAttribute("titulo", "Hola desde home");
 		model.addAttribute("sesion", session.getAttribute("idusuario"));
 		System.out.println(session.getAttribute("idusuario"));
-		return "home";
+		return "home/home";
 	}
 
 //METODO QUE REDIRECCIONA A LA VISTA DE TIPOS DE CUENTA VIRTUAL BANK
@@ -33,7 +33,7 @@ public class HomeController {
 	private String verTiposDeCuentas(Model model, HttpSession session) {
 		model.addAttribute("titulo", "Descubre las cuentas que tenemos para ti..");
 		model.addAttribute("sesion", session.getAttribute("idusuario"));
-		return "cuentas";
+		return "home/cuentas";
 	}
 
 //METODO QUE REDIRECCIONA A LA VISTA DE DATOS DEL CLIENTE
@@ -41,7 +41,7 @@ public class HomeController {
 	private String verDatos(Model model, HttpSession session) {
 		model.addAttribute("titulo", "Mis datos");
 		model.addAttribute("sesion", session.getAttribute("idusuario"));
-		return "datos_personales";
+		return "cliente/datos_personales";
 	}
 	
 //METODO QUE REDIRECCIONA A LA VISTA DE DATOS DEL CLIENTE
@@ -49,7 +49,7 @@ public class HomeController {
 	private String homeCliente(Model model, HttpSession session) {
 		model.addAttribute("titulo", "Home Cliente");
 		model.addAttribute("sesion", session.getAttribute("idusuario"));
-		return "home_cliente";
+		return "cliente/home_cliente";
 	}
 
 //METODO QUE REDIRECCIONA A LA VISTA DE MOVIMIENTOS HISTORICOS DE CLIENTE
@@ -57,7 +57,7 @@ public class HomeController {
 	private String verMovimientos(Model model, HttpSession session) {
 		model.addAttribute("titulo", "Mis movimientos");
 		model.addAttribute("sesion", session.getAttribute("idusuario"));
-		return "movimientos";
+		return "cliente/movimientos";
 	}
 
 //METODO QUE REDIRECCIONA A LA VISTA PARA REALIZAR TRANSFERENCIAS
@@ -66,7 +66,7 @@ public class HomeController {
 		model.addAttribute("titulo", "Transferencias");
 		model.addAttribute("sesion", session.getAttribute("idusuario"));
 		System.out.println(session.getAttribute("idusuario"));
-		return "transferencias";
+		return "cliente/transferencias";
 	}
 
 //METODO QUE REDIRECCIONA A LA VISTA DEL CAJERO VIRTUAL (ATM)
@@ -74,7 +74,7 @@ public class HomeController {
 	private String cajeroVirtual(Model model, HttpSession session) {
 		model.addAttribute("titulo", "Cajero virtual");
 		model.addAttribute("sesion", session.getAttribute("idusuario"));
-		return "cajero_virtual";
+		return "cliente/cajero_virtual";
 	}
 
 //METODO QUE REDIRECCIONA A LA VISTA DE CONSULTAS
@@ -82,7 +82,7 @@ public class HomeController {
 	private String contacto(Model model, HttpSession session) {
 		model.addAttribute("titulo", "Contacta con nosotros");
 		model.addAttribute("sesion", session.getAttribute("idusuario"));
-		return "contacto";
+		return "home/contacto";
 	}
 
 //METODO QUE ENVIA POR MAIL LA CONSULTA REALIZADA

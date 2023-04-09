@@ -19,18 +19,21 @@ public class RegistroIngreso {
 	
 	private String hora;
 	
-	private String lugar;
-	
 	@ManyToOne
 	private Usuario usuario;
 	
 	public RegistroIngreso() {}
 
-	public RegistroIngreso(Integer id, String dia, String hora, String lugar, Usuario usuario) {
+	public RegistroIngreso(Integer id, String dia, String hora, Usuario usuario) {
 		this.id = id;
 		this.dia = dia;
 		this.hora = hora;
-		this.lugar = lugar;
+		this.usuario = usuario;
+	}
+	
+	public RegistroIngreso(String dia, String hora, Usuario usuario) {
+		this.dia = dia;
+		this.hora = hora;
 		this.usuario = usuario;
 	}
 
@@ -58,13 +61,6 @@ public class RegistroIngreso {
 		this.hora = hora;
 	}
 
-	public String getLugar() {
-		return lugar;
-	}
-
-	public void setLugar(String lugar) {
-		this.lugar = lugar;
-	}
 
 	public Usuario getUsuario() {
 		return usuario;
@@ -76,7 +72,7 @@ public class RegistroIngreso {
 
 	@Override
 	public String toString() {
-		return "RegistroIngreso [dia=" + dia + ", hora=" + hora + ", lugar=" + lugar + ", usuario=" + usuario + "]";
+		return "RegistroIngreso [dia=" + dia + ", hora=" + hora + ", usuario=" + usuario + "]";
 	}
 	
 }

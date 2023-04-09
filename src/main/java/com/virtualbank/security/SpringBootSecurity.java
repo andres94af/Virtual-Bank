@@ -30,7 +30,7 @@ public class SpringBootSecurity extends WebSecurityConfigurerAdapter {
 		.antMatchers("/misDatos","/movimientos","/transferencias","/cajero").hasAnyRole("USER")
 		.and().formLogin().loginPage("/login")
 		.permitAll().defaultSuccessUrl("/usuario/acceder")
-		.and().logout().logoutSuccessUrl("/");
+		.and().logout().logoutSuccessUrl("/?logout");
 	}
 	
 	@Bean

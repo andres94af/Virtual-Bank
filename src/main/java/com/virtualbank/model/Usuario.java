@@ -68,6 +68,8 @@ public class Usuario {
 	private String tipoDeCuenta;
 
 	private double limite;
+	
+	private double interes;
 
 	private boolean activo;
 
@@ -83,8 +85,8 @@ public class Usuario {
 	public Usuario(Integer id, @NotEmpty String nombre, @NotEmpty String apellido, @NotEmpty String dni,
 			@NotNull Date fechaNacimiento, @NotEmpty String nacionalidad, @NotEmpty String direccion,
 			@NotEmpty String telefono, @NotEmpty @Email String email, @NotEmpty String genero, String rol,
-			@NotEmpty String password, String numeroCuenta, double saldo, double limite, boolean activo,
-			List<Movimientos> movimientos, List<RegistroIngreso> registroIngreso, String tipoDeCuenta) {
+			@NotEmpty String password, String numeroCuenta, double saldo, String tipoDeCuenta, double limite, double interes,
+			boolean activo, List<Movimientos> movimientos, List<RegistroIngreso> registroIngreso) {
 		this.id = id;
 		this.nombre = nombre;
 		this.apellido = apellido;
@@ -99,12 +101,15 @@ public class Usuario {
 		this.password = password;
 		this.numeroCuenta = numeroCuenta;
 		this.saldo = saldo;
+		this.tipoDeCuenta = tipoDeCuenta;
 		this.limite = limite;
+		this.interes = interes;
 		this.activo = activo;
 		this.movimientos = movimientos;
 		this.registroIngreso = registroIngreso;
-		this.tipoDeCuenta = tipoDeCuenta;
 	}
+
+
 
 	public Integer getId() {
 		return id;
@@ -258,13 +263,19 @@ public class Usuario {
 		this.tipoDeCuenta = tipoDeCuenta;
 	}
 
+	public double getInteres() {
+		return interes;
+	}
+
+	public void setInteres(double interes) {
+		this.interes = interes;
+	}
+
 	@Override
 	public String toString() {
-		return "Usuario [id=" + id + ", nombre=" + nombre + ", apellido=" + apellido + ", dni=" + dni + ", fechaNacimiento="
-				+ fechaNacimiento + ", nacionalidad=" + nacionalidad + ", direccion=" + direccion + ", telefono=" + telefono
-				+ ", email=" + email + ", genero=" + genero + ", rol=" + rol + ", password=" + password + ", numeroCuenta="
-				+ numeroCuenta + ", saldo=" + saldo + ", tipoDeCuenta=" + tipoDeCuenta + ", limite=" + limite + ", activo="
-				+ activo + ", movimientos=" + movimientos + ", registroIngreso=" + registroIngreso + "]";
+		return "Usuario [id=" + id + ", nombre=" + nombre + ", apellido=" + apellido + ", email=" + email + ", rol=" + rol
+				+ ", numeroCuenta=" + numeroCuenta + ", saldo=" + saldo + ", tipoDeCuenta=" + tipoDeCuenta + ", limite="
+				+ limite + ", interes=" + interes + ", activo=" + activo + "]";
 	}
 
 }
