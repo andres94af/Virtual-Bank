@@ -56,9 +56,10 @@ public class HomeController {
 	@GetMapping("/cliente/home_cliente")
 	private String homeCliente(Model model, HttpSession session) {
 		Optional<Usuario> usuario = usuarioService.findById(Integer.parseInt(session.getAttribute("idusuario").toString()));
-		model.addAttribute("titulo", "Home Cliente");
+		model.addAttribute("titulo", usuario.get().getNombre() + ", toda tu información resumida está aquí...");
 		model.addAttribute("sesion", session.getAttribute("idusuario"));
 		model.addAttribute("ultimoIngreso", registroIngresoService.findLast(usuario.get()));
+		model.addAttribute("usuario", usuario.get());
 		return "cliente/home_cliente";
 	}
 
