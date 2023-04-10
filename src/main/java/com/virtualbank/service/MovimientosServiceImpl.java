@@ -2,6 +2,8 @@ package com.virtualbank.service;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +26,13 @@ public class MovimientosServiceImpl implements IMovimientosService{
 
 	@Override
 	public List<Movimientos> findByUsuario(Usuario usuario) {
-		return movimientoRepo.findByUsuario(usuario);
+		List<Movimientos> movimientosPorUsuario = movimientoRepo.findByUsuario(usuario);
+    Collections.sort(movimientosPorUsuario, new Comparator<Movimientos>() {
+      public int compare(Movimientos m1, Movimientos m2) {
+          return m2.getId().compareTo(m1.getId());
+      }
+  });
+		return movimientosPorUsuario;
 	}
 
 	@Override
@@ -42,7 +50,7 @@ public class MovimientosServiceImpl implements IMovimientosService{
 		if (!movimientos.isEmpty()) {
 			List<Movimientos> movimientosIgresos = new ArrayList<Movimientos>();
 			for (Movimientos m : movimientos) {
-				if (m.getTipo().equals("deposito") && 
+				if (m.getTipo().equals("I") && 
 						(m.getFecha().getMonth()+1==mesActual && m.getFecha().getYear()+1900==añoActual)) {
 					movimientosIgresos.add(m);
 				}
@@ -64,8 +72,8 @@ public class MovimientosServiceImpl implements IMovimientosService{
 		if (!movimientos.isEmpty()) {
 			List<Movimientos> movimientosEgresos = new ArrayList<Movimientos>();
 			for (Movimientos m : movimientos) {
-				if ((m.getTipo().equals("transferencia")||m.getTipo().equals("extraccion")) 
-						&& (m.getFecha().getMonth()+1==mesActual && m.getFecha().getYear()+1900==añoActual)) {
+				if (m.getTipo().equals("E") && 
+						(m.getFecha().getMonth()+1==mesActual && m.getFecha().getYear()+1900==añoActual)) {
 					movimientosEgresos.add(m);
 				}
 			}

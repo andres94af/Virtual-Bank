@@ -32,18 +32,22 @@ public class Movimientos {
 	
 	private String destino;
 	
+	private String descripcion;
+	
 	@ManyToOne
 	private Usuario usuario;
 	
 	public Movimientos() {}
 
-	public Movimientos(Integer id, String tipo, Date fecha, double monto, Usuario usuario, String destino) {
+	public Movimientos(Integer id, String tipo, @NotNull Date fecha, double monto, String destino, String descripcion,
+			Usuario usuario) {
 		this.id = id;
 		this.tipo = tipo;
 		this.fecha = fecha;
 		this.monto = monto;
-		this.usuario = usuario;
 		this.destino = destino;
+		this.descripcion = descripcion;
+		this.usuario = usuario;
 	}
 
 	public Integer getId() {
@@ -94,9 +98,19 @@ public class Movimientos {
 		this.destino = destino;
 	}
 
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
 	@Override
 	public String toString() {
 		return "Movimientos [id=" + id + ", tipo=" + tipo + ", fecha=" + fecha + ", monto=" + monto + ", destino=" + destino
-				+ ", usuario=" + usuario.getNombre() + "]";
+				+ ", descripcion=" + descripcion + ", usuario=" + usuario.getNombre() + "]";
 	}
+
+
 }

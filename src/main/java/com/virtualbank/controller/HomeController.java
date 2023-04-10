@@ -72,8 +72,10 @@ public class HomeController {
 //METODO QUE REDIRECCIONA A LA VISTA DE MOVIMIENTOS HISTORICOS DE CLIENTE
 	@GetMapping("/cliente/movimientos")
 	private String verMovimientos(Model model, HttpSession session) {
-		model.addAttribute("titulo", "Mis movimientos");
+		Optional<Usuario> usuario = usuarioService.findById(Integer.parseInt(session.getAttribute("idusuario").toString()));
+		model.addAttribute("titulo", "Movimientos históricos");
 		model.addAttribute("sesion", session.getAttribute("idusuario"));
+		model.addAttribute("movimientos", movimientosService.findByUsuario(usuario.get()));
 		return "cliente/movimientos";
 	}
 
