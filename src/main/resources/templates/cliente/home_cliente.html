@@ -8,6 +8,7 @@
 	<div class="container text-center">
 		<h1 class="" th:text="${titulo}"></h1>
 	</div>
+	<br/>
 	<div class="container text-right">
 		<p>Última conexión: <span th:text="${ultimoIngreso.dia}"></span> 
 		/ <span th:text="${ultimoIngreso.hora}"></span>hs.</p>
@@ -15,41 +16,49 @@
 	
 	<div class="container">
 	<div class="row">
-		  <div class="col-sm-8">
+		  <div class="col-sm-6">
 		    <div class="card">
 		      <div class="card-body">
-		        <h5 class="card-title">Mi cuenta: <span th:text=${usuario.numeroCuenta}></span></h5>
-		        <p class="card-text">Saldo: € <span th:text=${usuario.saldo}></span></p>
-		        <p class="card-text">Ingresos del mes actual: € <span th:text=${ingresoMensual}></span></p>
-		        <p class="card-text">Gastos del mes actual: € <span th:text=${egresoMensual}></span></p>
-		        <a th:href="@{/cliente/movimientos}" class="btn btn-dark">Ver detalle de movimientos</a>
+		        <h4 class="card-title" th:text="'Mi cuenta : ' + ${usuario.numeroCuenta}"></h4>
+		        <h5 class="card-text" th:text="'Saldo: € ' + ${usuario.saldo}"></h5>
+		        <h5 class="card-text">Ingresos del mes: <span class="text-success" th:text="'€ '+ ${ingresoMensual}"></span></h5>
+		        <h5 class="card-text">Gastos del mes: <span class="text-danger" th:text="'€ '+ ${egresoMensual}"></span></h5>
+		        <a th:href="@{/cliente/movimientos}" class="btn btn-dark btn-block">Ver mas movimientos</a>
 		      </div>
 		    </div>
 		    <br/>
 		    <div class="card">
 		      <div class="card-body">
-		        <h5 class="card-title">No se que llevara 2</h5>
-		        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-		        <a href="#" class="btn btn-dark">No se que llevara 2</a>
+		        <h4 class="card-title" th:text="'Mi cuenta : ' + ${usuario.numeroCuenta}"></h4>
+		        <h5 class="card-text" th:text="'Saldo: € ' + ${usuario.saldo}"></h5>
+		        <h5 class="card-text">Ingresos del mes: <span class="text-success" th:text="'€ '+ ${ingresoMensual}"></span></h5>
+		        <h5 class="card-text">Gastos del mes: <span class="text-danger" th:text="'€ '+ ${egresoMensual}"></span></h5>
+		        <a th:href="@{/cliente/movimientos}" class="btn btn-dark btn-block">Ver mas movimientos</a>
 		      </div>
 		    </div>
+		   <br/>
 		  </div>
-		  <div class="col-sm-4">
-		    <div class="card text-center">
-		      <div class="card-body">
-		        <h5 class="card-title">No se que llevara 3</h5>
-		        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-		        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-		        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-		        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-		        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-		        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-		        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-		        <a href="#" class="btn btn-dark">No se que llevara 3</a>
-		      </div>
-		    </div>
+		  <div class="col-sm-6">
+		      <div class="card">
+			    <img class="card-img-top" th:src="@{/images/vb_virtualbank_logo.png}" alt="imgTarjeta" style="background-color: #FED102;">
+			    <div class="card-body" th:if="${usuario.tipoDeCuenta}=='Cuenta Joven'">
+			      <h4 class="card-title" th:text="'Tu ' + ${usuario.tipoDeCuenta} + ' tiene para ofrecerte...'"></h4>
+			      <p class="card-text">&#x2022; No pagas nada por tu cuenta, tarjeta de débito y transferencias.</p>
+			      <p class="card-text">&#x2022; Retirada de efectivo a débito sin coste.</p>
+			      <p class="card-text">&#x2022; Tarjeta de credito virtual.</p>
+			      <p class="card-text">&#x2022; SIN comisiones y asistencia telefonica las 24hs.</p>
+
+			    </div>
+			    <div class="card-body" th:unless="${usuario.tipoDeCuenta}=='Cuenta Joven'">
+			      <h4 class="card-title" th:text="'Tu ' + ${usuario.tipoDeCuenta} + ' tiene para ofrecerte...'"></h4>
+			      <p class="card-text">&#x2022; Retirada de efectivo a débito sin coste desde cajeros adheridos</p>
+			      <p class="card-text">&#x2022; Solo se paga un 1,5% de comisión por movimiento</p>
+			      <p class="card-text">&#x2022; Tarjeta de credito virtual por solo €10</p>
+			      <p class="card-text">&#x2022; Asistencia telefónica las 24hs.</p>
+			    </div>
+			  </div>
 		  </div>
-		  </div>
+		</div>
 	</div>
 
   <footer th:replace="layout/layout.html :: footer"></footer>
