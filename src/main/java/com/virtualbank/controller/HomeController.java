@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.virtualbank.model.Usuario;
+import com.virtualbank.service.IMovimientosService;
 import com.virtualbank.service.IRegistroIngresoService;
 import com.virtualbank.service.IUsuarioService;
 import com.virtualbank.service.MailService;
@@ -26,6 +27,9 @@ public class HomeController {
 	
 	@Autowired
 	private IUsuarioService usuarioService;
+	
+	@Autowired
+	private IMovimientosService movimientosService;
 
 //METODO QUE REDIRECCIONA A LA VISTA HOME
 	@GetMapping("")
@@ -60,6 +64,8 @@ public class HomeController {
 		model.addAttribute("sesion", session.getAttribute("idusuario"));
 		model.addAttribute("ultimoIngreso", registroIngresoService.findLast(usuario.get()));
 		model.addAttribute("usuario", usuario.get());
+		model.addAttribute("ingresoMensual", movimientosService.obtenerIngresoMensual(usuario.get()));
+		model.addAttribute("egresoMensual", movimientosService.obtenerEgresoMensual(usuario.get()));
 		return "cliente/home_cliente";
 	}
 

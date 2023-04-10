@@ -7,6 +7,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -20,6 +23,8 @@ public class Movimientos {
 	
 	private String tipo;
 	
+	@NotNull
+	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date fecha;
 	
@@ -92,6 +97,6 @@ public class Movimientos {
 	@Override
 	public String toString() {
 		return "Movimientos [id=" + id + ", tipo=" + tipo + ", fecha=" + fecha + ", monto=" + monto + ", destino=" + destino
-				+ ", usuario=" + usuario + "]";
+				+ ", usuario=" + usuario.getNombre() + "]";
 	}
 }

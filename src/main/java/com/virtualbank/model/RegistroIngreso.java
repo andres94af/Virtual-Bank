@@ -72,7 +72,7 @@ public class RegistroIngreso {
 
 	@Override
 	public String toString() {
-		return "RegistroIngreso [dia=" + dia + ", hora=" + hora + ", usuario=" + usuario + "]";
+		return "RegistroIngreso [dia=" + dia + ", hora=" + hora + ", usuario=" + usuario.getNombre() + "]";
 	}
 	
 }

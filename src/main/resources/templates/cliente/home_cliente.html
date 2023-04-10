@@ -9,7 +9,8 @@
 		<h1 class="" th:text="${titulo}"></h1>
 	</div>
 	<div class="container text-right">
-		<p>Última conexión <span th:text="${ultimoIngreso.dia}"></span> / <span th:text="${ultimoIngreso.hora}"></span>hs</p>
+		<p>Última conexión: <span th:text="${ultimoIngreso.dia}"></span> 
+		/ <span th:text="${ultimoIngreso.hora}"></span>hs.</p>
 	</div>
 	
 	<div class="container">
@@ -19,8 +20,8 @@
 		      <div class="card-body">
 		        <h5 class="card-title">Mi cuenta: <span th:text=${usuario.numeroCuenta}></span></h5>
 		        <p class="card-text">Saldo: € <span th:text=${usuario.saldo}></span></p>
-		        <p class="card-text">Ingresos del mes: € 1000.00</p>
-		        <p class="card-text">Gastos del mes: € 200</p>
+		        <p class="card-text">Ingresos del mes actual: € <span th:text=${ingresoMensual}></span></p>
+		        <p class="card-text">Gastos del mes actual: € <span th:text=${egresoMensual}></span></p>
 		        <a th:href="@{/cliente/movimientos}" class="btn btn-dark">Ver detalle de movimientos</a>
 		      </div>
 		    </div>
