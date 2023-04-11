@@ -30,6 +30,8 @@ public class Movimientos {
 	
 	private double monto;
 	
+	private double interes;
+	
 	private String destino;
 	
 	private String descripcion;
@@ -39,11 +41,12 @@ public class Movimientos {
 	
 	public Movimientos() {}
 
-	public Movimientos(String tipo, @NotNull Date fecha, double monto, String destino, String descripcion,
+	public Movimientos(String tipo, @NotNull Date fecha, double monto, double interes, String destino, String descripcion,
 			Usuario usuario) {
 		this.tipo = tipo;
 		this.fecha = fecha;
 		this.monto = monto;
+		this.interes = interes;
 		this.destino = destino;
 		this.descripcion = descripcion;
 		this.usuario = usuario;
@@ -105,11 +108,19 @@ public class Movimientos {
 		this.descripcion = descripcion;
 	}
 
-	@Override
-	public String toString() {
-		return "Movimientos [id=" + id + ", tipo=" + tipo + ", fecha=" + fecha + ", monto=" + monto + ", destino=" + destino
-				+ ", descripcion=" + descripcion + ", usuario=" + usuario.getNombre() + "]";
+	public double getInteres() {
+		return interes;
 	}
 
+	public void setInteres(double interes) {
+		this.interes = interes;
+	}
+
+	@Override
+	public String toString() {
+		return "Movimientos [id=" + id + ", tipo=" + tipo + ", fecha=" + fecha + ", monto=" + monto + ", interes=" + interes
+				+ ", destino=" + destino + ", descripcion=" + descripcion + ", usuario=" + usuario.getNombre() + "]";
+	}
+	
 
 }

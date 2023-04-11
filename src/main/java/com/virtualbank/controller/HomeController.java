@@ -116,8 +116,9 @@ public class HomeController {
 	@GetMapping("/cliente/cajero/extraer")
 	private String extraerDineroCajero(HttpSession session, @RequestParam double dinero) {
 		Usuario usuario = usuarioService.findById(Integer.parseInt(session.getAttribute("idusuario").toString())).get();
-		Movimientos movimiento = new Movimientos("E", new Date(), dinero, usuario.getNumeroCuenta(), "Extracción", usuario);
-		double nuevoSaldo = Math.round((usuario.getSaldo() - dinero) * 100.0) / 100.0;
+		double interes = (dinero/100)*usuario.getInteres();
+		Movimientos movimiento = new Movimientos("E", new Date(), dinero, interes, usuario.getNumeroCuenta(), "Extracción", usuario);
+		double nuevoSaldo = Math.round((usuario.getSaldo() - dinero - interes) * 100.0) / 100.0;
 		usuario.setSaldo(nuevoSaldo);
 		usuarioService.save(usuario);
 		movimientosService.save(movimiento);
@@ -134,8 +135,9 @@ public class HomeController {
 		double dineroBilletes50 = billete50 * 50;
 		double dineroBilletes100 = billete100 * 100;
 		double dinero = dineroBilletes10 + dineroBilletes20 + dineroBilletes50 + dineroBilletes100;
-		Movimientos movimiento = new Movimientos("I", new Date(), dinero, usuario.getNumeroCuenta(), "Depósito", usuario);
-		double nuevoSaldo = Math.round((usuario.getSaldo() + dinero) * 100.0) / 100.0;
+		double interes = (dinero/100)*usuario.getInteres();
+		Movimientos movimiento = new Movimientos("I", new Date(), dinero, interes, usuario.getNumeroCuenta(), "Depósito", usuario);
+		double nuevoSaldo = Math.round((usuario.getSaldo() - dinero - interes) * 100.0) / 100.0;
 		usuario.setSaldo(nuevoSaldo);
 		usuarioService.save(usuario);
 		movimientosService.save(movimiento);

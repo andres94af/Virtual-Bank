@@ -19,6 +19,7 @@
 					<th scope="col">Ingreso / Egreso</th>
 					<th scope="col">Fecha</th>
 					<th scope="col">Monto</th>
+					<th scope="col">Retenido</th>
 					<th scope="col">Cuenta de Destino</th>
 					<th scope="col">Descripción</th>
 				</tr>
@@ -31,6 +32,7 @@
 						th:if="${movimiento.tipo}==E"></th>
 					<th th:text="'+ € ' + ${movimiento.monto}" class="text-success"
 						th:if="${movimiento.tipo}==I"></th>
+						<td th:text="'- € ' + ${movimiento.interes}"></td>
 					<td th:text="${movimiento.destino}"></td>
 					<td th:text="${movimiento.descripcion}"></td>
 				</tr>
