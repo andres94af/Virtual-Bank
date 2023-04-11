@@ -18,6 +18,15 @@
 			<span aria-hidden="true">&times;</span>
 		</button>
 	</div>
+	<div
+		class="alert alert-success alert-dismissible fade show text-center"
+		role="alert" th:if="${param.t_exito}">
+		Se ha enviado la transferencia correctamente!
+		<button type="button" class="close" data-dismiss="alert"
+			aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
 	<!-- FIN Alertas -->
 
 	<!-- Contenido de la pagina -->

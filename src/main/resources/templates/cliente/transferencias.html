@@ -16,30 +16,33 @@
 		<div class="container py-3 h-100">
 			<div class="card" style="border-radius: 1rem;">
 				<div class="card-body p-4 p-lg-4 text-black">
-					<form th:action="@{/usuario/registrarUsuario}">
+					<form th:action="@{/cliente/transferencias/enviarTransferencia}">
 						<div class="form-row">
 							<div class="form-group col-md-4">
-								<label for="nacionalidad">Nacionalidad :</label> <input
-									type="text" class="form-control" id="nacionalidad" required
-									name="nacionalidad" placeholder="Ingrese su nacionalidad">
+								<label for="ctaOrigen">Cuenta de origen:</label> <input step="0.10"
+									type="text" class="form-control" id="cuentaOrigen" disabled
+									name="cuentaOrigen" th:value="${usuarioLogueado.numeroCuenta}">
 							</div>
-							<div class="form-group col-md-4">
-								<label for="fechaNacimiento">Fecha de nacimiento :</label> <input
-									type="date" class="form-control" id="fechaNacimiento"
-									name="fechaNacimiento" required>
-							</div>
-							<div class="form-group col-md-4">
-								<label for="genero">Genero :</label> <select id="genero"
-									name="genero" class="form-control" required>
-									<option selected>--Seleccione una opción--</option>
-									<option value="Femenino">Femenino</option>
-									<option value="Masculino">Masculino</option>
-									<option value="Otro">Otro</option>
+							<div class="form-group col-md-5">
+								<label for="ctaDestino">Cuenta de destino :</label> <select
+									id="ctaDestino" name="ctaDestino" class="form-control"
+									required>
+									<option th:each="usuario : ${usuarios}"
+										th:value="${usuario.numeroCuenta}"
+										th:text="${usuario.numeroCuenta} + ' - ' 
+												+ ${usuario.nombre} + ' ' 
+												+ ${usuario.apellido}"></option>
 								</select>
+							</div>
+							<div class="form-group col-md-3">
+								<label for="monto">Monto :</label> <input step="0.10" min="0" max="1000"
+									type="number" class="form-control" id="monto" required
+									name="monto" placeholder="00.0">
 							</div>
 						</div>
 						<hr>
-						<button type="submit" class="btn btn-dark btn-lg btn-block">Transferir dinero</button>
+						<button type="submit" class="btn btn-dark btn-lg btn-block">Transferir
+							dinero</button>
 					</form>
 				</div>
 			</div>

@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import com.virtualbank.model.Movimientos;
 import com.virtualbank.model.Usuario;
 import com.virtualbank.service.IMovimientosService;
@@ -97,10 +96,23 @@ public class HomeController {
 //METODO QUE REDIRECCIONA A LA VISTA PARA REALIZAR TRANSFERENCIAS
 	@GetMapping("/cliente/transferencias")
 	private String verTransferencias(Model model, HttpSession session) {
+		Usuario usuario = usuarioService.findById(Integer.parseInt(session.getAttribute("idusuario").toString())).get();
+		List<Usuario> usuarios = usuarioService.findAll();
+		usuarios.remove(usuario);
+		model.addAttribute("usuarioLogueado", usuario);
+		model.addAttribute("usuarios", usuarios);
 		model.addAttribute("titulo", "Transferencias");
 		model.addAttribute("sesion", session.getAttribute("idusuario"));
 		System.out.println(session.getAttribute("idusuario"));
 		return "cliente/transferencias";
+	}
+	
+//METODO QUE TRANSFIERE DE UNA CUENTA A OTRA Y REDIRECCION A LA VISTA HOME DEL CLIENTE
+	@GetMapping("/cliente/transferencias/enviarTransferencia")
+	private String verTransferencias(HttpSession session, @RequestParam double monto, @RequestParam String ctaDestino) {
+		System.out.println(monto + " - " + ctaDestino);
+//		FALTA CODIGO QUE RESTA y SUMA el monto
+		return "redirect:/cliente/home_cliente?t_exito";
 	}
 
 //METODO QUE REDIRECCIONA A LA VISTA DEL CAJERO VIRTUAL (ATM)
