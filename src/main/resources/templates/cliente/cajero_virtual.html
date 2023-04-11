@@ -9,9 +9,26 @@
 		<h1 class="" th:text="${titulo}"></h1>
 	</div>
 	
-	<div class="container text-center" 
+	<div class="container" 
 	style="background-color: #034CAB; height: 80vh; border-radius: 15px; font-family: monospace; color: #FED102;">
-		<h1>ATM</h1>
+		<h1 class="text-center">ATM</h1>
+		<br>
+		<h2 class="text-center">Bienvenido al cajero automático de Virtual Bank. Use los botones para seleccionar las opciones</h2>
+		<br><br>
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="h1 text-left"><a class="btn btn-light">...</a> CONSULTA SALDO</div>
+				<br><br><br>
+				<div class="h1 text-left"><a class="btn btn-light">...</a> ...</div>					
+			</div>
+				<div class="col-sm-6">
+				<div class="h1 text-right">INGRESO DE DINERO <a class="btn btn-light">...</a></div>
+				<br><br><br>
+				<div class="h1 text-right">EXTRACCIÓN DE DINERO <a class="btn btn-light">...</a></div>	
+				<br><br><br>
+				<div class="h1 text-right">SALIR <a class="btn btn-light">...</a></div>				
+			</div>
+		</div>
 	</div>
 
   <footer th:replace="layout/layout.html :: footer"></footer>
