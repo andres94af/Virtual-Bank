@@ -4,8 +4,11 @@
 <head th:replace="layout/layout.html :: head"></head>
 
 <body>
+	<!-- Header -->
 	<header th:replace="layout/layout.html :: header"></header>
+	<!-- Fin Header -->
 
+	<!-- Contenido de la pagina -->
 	<div class="container text-center">
 		<h1 class="" th:text="${titulo}"></h1>
 	</div>
@@ -29,8 +32,8 @@
 							</div>
 							<div class="form-group col-md-4">
 								<label for="telefono">Teléfono de contacto</label> <input
-									type="text" class="form-control" id="telefono"
-									name="telefono" placeholder="Ingrese un teléfono" required>
+									type="text" class="form-control" id="telefono" name="telefono"
+									placeholder="Ingrese un teléfono" required>
 							</div>
 						</div>
 						<div class="form-group">
@@ -54,7 +57,10 @@
 			</div>
 		</div>
 	</div>
+	<!-- FIN Contenido de la pagina -->
 
+	<!-- Footer -->
 	<footer th:replace="layout/layout.html :: footer"></footer>
+	<!-- FIN Footer -->
 </body>
 </html>

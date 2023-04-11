@@ -1,144 +1,217 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head th:replace="layout/layout.html :: head"></head>
 
-<body>
-  <header th:replace="layout/layout.html :: header"></header>
- <!-- Alertas -->
-  	<div class="alert alert-success alert-dismissible fade show text-center" role="alert" th:if="${param.e_exito}">
-	  	La extracción fue exitosa! Recuerde cerrar su sesión al salir
-	  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-	    <span aria-hidden="true">&times;</span>
-	  </button>
-	</div>
-  	<div class="alert alert-success alert-dismissible fade show text-center" role="alert" th:if="${param.d_exito}">
-	  	El deposito fue exitoso! Recuerde cerrar su sesión al salir
-	  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-	    <span aria-hidden="true">&times;</span>
-	  </button>
-	</div>
- <!-- FIN Alertas -->
- 
-	<div class="container mt-lg-4" 
-	style="background-color: #034CAB; height: 80vh; border-radius: 15px; font-family: monospace; color: #FED102;">
-		<h1 class="text-center">ATM</h1>
-		<br>
-		<h2 class="text-center">Bienvenido al cajero automático de Virtual Bank. Use los botones para seleccionar las opciones</h2>
-		<br><br>
-		<div class="row">
-			<div class="col-sm-6 text-left">
-				<h2 ><button type="button" class="btn btn-light" data-toggle="modal" data-target="#modalSaldo">...</button> CONSULTA SALDO</h2>
-				<br><br><br>
-				<h2 ><a class="btn btn-light">...</a> ...</h2>					
-			</div>
-				<div class="col-sm-6 text-right">
-				<h2 >EXTRACCIÓN DE DINERO <button type="button" class="btn btn-light" data-toggle="modal" data-target="#modalExtraccion">...</button></h2>	
-				<br><br><br>
-				<h2 >INGRESO DE DINERO <button type="button" class="btn btn-light" data-toggle="modal" data-target="#modalDeposito">...</button></h2>
-				<br><br><br>
-				<h2 >SALIR <a class="btn btn-light" th:href="@{/cliente/home_cliente}">...</a></h2>				
+<body style="background-color: #474747;">
+	<!-- Modal Saldo -->
+	<div class="modal fade" id="modalSaldo" tabindex="-1" role="dialog"
+		aria-labelledby="modalSaldo" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title text-center" id="modalSaldo">SALDO
+						ACTUAL</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<p id="fecha" class="text-right"></p>
+					<p th:text="'Nombre : '+${usuario.nombre}+' '+${usuario.apellido}"></p>
+					<p th:text="'Numero de cuenta : '+${usuario.numeroCuenta}"></p>
+					<h5>
+						<strong th:text="'Saldo actual : € '+${usuario.saldo}"></strong>
+					</h5>
+
+				</div>
 			</div>
 		</div>
 	</div>
+	<!-- FIN Modal Saldo -->
 
-<!-- Modal Saldo -->
-<div class="modal fade" id="modalSaldo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title text-center" id="exampleModalLongTitle">SALDO ACTUAL</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <p id="fecha" class="text-right"></p>
-        <p th:text="'Nombre : '+${usuario.nombre}+' '+${usuario.apellido}"></p>
-        <p th:text="'Numero de cuenta : '+${usuario.numeroCuenta}"></p>
-        <h5 ><strong th:text="'Saldo actual : € '+${usuario.saldo}"></strong></h5>
-        
-      </div>
-    </div>
-  </div>
-</div>
-<!-- FIN Modal Saldo -->
+	<!-- Modal extracción -->
+	<div class="modal fade" id="modalExtraccion" tabindex="-1"
+		role="dialog" aria-labelledby="modalExtraccion" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title text-center" id="modalExtraccion">EXTRACCIÓN</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<p id="fecha" class="text-right"></p>
+					<p th:text="'Nombre : '+${usuario.nombre}+' '+${usuario.apellido}"></p>
+					<p th:text="'Numero de cuenta : '+${usuario.numeroCuenta}"></p>
+					<p>
+						<span th:text="'Saldo disponible : € '+${usuario.saldo}"></span> /
+						<span th:text="' Límite de extracción : € '+${usuario.limite}"></span>
+					</p>
+					<form th:action="@{/cliente/cajero/extraer}">
+						<div class="form-group row">
+							<label for="dinero"
+								class="col-sm-5 col-form-label col-form-label-sm">Ingrese
+								monto a extraer: €</label>
+							<div class="col-sm-4">
+								<input type="number" step="5" name="dinero"
+									class="form-control form-control-sm" id="dinero"
+									placeholder="100" min="0" th:max="${usuario.limite}" required>
+							</div>
+						</div>
+						<button type="submit" class="btn btn-info">Extraer</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- FIN Modal extracción -->
 
-<!-- Modal extracción -->
-<div class="modal fade" id="modalExtraccion" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title text-center" id="exampleModalLongTitle">EXTRACCIÓN</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <p id="fecha" class="text-right"></p>
-        <p th:text="'Nombre : '+${usuario.nombre}+' '+${usuario.apellido}"></p>
-        <p th:text="'Numero de cuenta : '+${usuario.numeroCuenta}"></p>
-        <p><span th:text="'Saldo disponible : € '+${usuario.saldo}"></span>  /  <span th:text="' Límite de extracción : € '+${usuario.limite}"></span></p>
-		<form th:action="@{/cliente/cajero/extraer}">
-		  <div class="form-group row">
-		    <label for="dinero" class="col-sm-5 col-form-label col-form-label-sm">Ingrese monto a extraer: €</label>
-		    <div class="col-sm-4">
-		      <input type="number" step="5" name="dinero" class="form-control form-control-sm" id="dinero" placeholder="100" min="0" th:max="${usuario.limite}" required>
-		    </div>
-		  </div>
-		      <button type="submit" class="btn btn-info">Extraer</button>
-		</form>
-      </div>
-      </div>
-    </div>
-  </div>
-<!-- FIN Modal extracción -->
+	<!-- Modal deposito -->
+	<div class="modal fade" id="modalDeposito" tabindex="-1" role="dialog"
+		aria-labelledby="modalDeposito" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title text-center" id="modalDeposito">DEPÓSITO</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<p id="fecha" class="text-right"></p>
+					<p th:text="'Nombre : '+${usuario.nombre}+' '+${usuario.apellido}"></p>
+					<p th:text="'Numero de cuenta : '+${usuario.numeroCuenta}"></p>
+					<p>
+						<span th:text="'Saldo actual : € '+${usuario.saldo}"></span>
+					</p>
+					<p class="text-center">
+						<strong>Ingrese la cantidad de billetes a depositar</strong>
+					</p>
+					<form th:action="@{/cliente/cajero/depositar}">
+						<div class="form-group row">
+							<label for="billete10"
+								class="col-sm-3 col-form-label col-form-label-sm">Billete
+								de €10</label>
+							<div class="col-sm-3">
+								<input type="number" step="1" name="billete10"
+									class="form-control form-control-sm" id="billete10" value="0"
+									min="0" max="10" required>
+							</div>
+							<label for="billete20"
+								class="col-sm-3 col-form-label col-form-label-sm">Billete
+								de €20</label>
+							<div class="col-sm-3">
+								<input type="number" step="1" name="billete20"
+									class="form-control form-control-sm" id="billete20" value="0"
+									min="0" max="10" required>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="billete50"
+								class="col-sm-3 col-form-label col-form-label-sm">Billete
+								de €50</label>
+							<div class="col-sm-3">
+								<input type="number" step="1" name="billete50"
+									class="form-control form-control-sm" id="billete50" value="0"
+									min="0" max="10" required>
+							</div>
+							<label for="billete100"
+								class="col-sm-3 col-form-label col-form-label-sm">Billete
+								de €100</label>
+							<div class="col-sm-3">
+								<input type="number" step="1" name="billete100"
+									class="form-control form-control-sm" id="billete100" value="0"
+									min="0" max="10" required>
+							</div>
+						</div>
+						<button type="submit" class="btn btn-info">Depositar</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- FIN Modal deposito -->
 
-<!-- Modal deposito -->
-<div class="modal fade" id="modalDeposito" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title text-center" id="exampleModalLongTitle">DEPÓSITO</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <p id="fecha" class="text-right"></p>
-        <p th:text="'Nombre : '+${usuario.nombre}+' '+${usuario.apellido}"></p>
-        <p th:text="'Numero de cuenta : '+${usuario.numeroCuenta}"></p>
-        <p><span th:text="'Saldo actual : € '+${usuario.saldo}"></span></p>
-        <p class="text-center"><strong>Ingrese la cantidad de billetes a depositar</strong></p>
-		<form th:action="@{/cliente/cajero/depositar}">
-		  <div class="form-group row">
-		    <label for="billete10" class="col-sm-3 col-form-label col-form-label-sm">Billete de €10</label>
-		    <div class="col-sm-3">
-		      <input type="number" step="1" name="billete10" class="form-control form-control-sm" id="billete10" value="0" min="0" max="10" required>
-		    </div>
-		    <label for="billete20" class="col-sm-3 col-form-label col-form-label-sm">Billete de €20</label>
-		    <div class="col-sm-3">
-		      <input type="number" step="1" name="billete20" class="form-control form-control-sm" id="billete20" value="0" min="0" max="10" required>
-		    </div>
-		  </div>
-		  <div class="form-group row">
-		    <label for="billete50" class="col-sm-3 col-form-label col-form-label-sm">Billete de €50</label>
-		    <div class="col-sm-3">
-		      <input type="number" step="1" name="billete50" class="form-control form-control-sm" id="billete50" value="0" min="0" max="10" required>
-		    </div>
-		    <label for="billete100" class="col-sm-3 col-form-label col-form-label-sm">Billete de €100</label>
-		    <div class="col-sm-3">
-		      <input type="number" step="1" name="billete100" class="form-control form-control-sm" id="billete100" value="0" min="0" max="10" required>
-		    </div>
-		  </div>
-		      <button type="submit" class="btn btn-info">Depositar</button>
-		</form>
-      </div>
-      </div>
-    </div>
-  </div>
-<!-- FIN Modal deposito -->
+	<!-- Header -->
+	<header th:replace="layout/layout.html :: header"></header>
+	<!-- FIN Header -->
 
+	<!-- Alertas -->
+	<div
+		class="alert alert-success alert-dismissible fade show text-center"
+		role="alert" th:if="${param.e_exito}">
+		La extracción fue exitosa! Recuerde cerrar su sesión al salir
+		<button type="button" class="close" data-dismiss="alert"
+			aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div
+		class="alert alert-success alert-dismissible fade show text-center"
+		role="alert" th:if="${param.d_exito}">
+		El deposito fue exitoso! Recuerde cerrar su sesión al salir
+		<button type="button" class="close" data-dismiss="alert"
+			aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<!-- FIN Alertas -->
 
-  <footer th:replace="layout/layout.html :: footer"></footer>
+	<!-- Contenido de la pagina -->
+	<div class="container mt-lg-4"
+		style="background-color: #034CAB; height: 80vh; border-radius: 15px; font-family: monospace; color: #FED102;">
+		<h1 class="text-center">VIRTUAL BAKN &copy; - ATM</h1>
+		<br>
+		<h2 class="text-center">Bienvenido al cajero automático de
+			Virtual Bank. Use los botones para seleccionar las opciones</h2>
+		<br>
+		<br>
+		<div class="row">
+			<div class="col-sm-6 text-left">
+				<h2>
+					<button type="button" class="btn btn-light" data-toggle="modal"
+						data-target="#modalSaldo">...</button>
+					CONSULTA SALDO
+				</h2>
+				<br>
+				<br>
+				<br>
+				<h2>
+					<a class="btn btn-light">...</a> ...
+				</h2>
+			</div>
+			<div class="col-sm-6 text-right">
+				<h2>
+					EXTRACCIÓN DE DINERO
+					<button type="button" class="btn btn-light" data-toggle="modal"
+						data-target="#modalExtraccion">...</button>
+				</h2>
+				<br>
+				<br>
+				<br>
+				<h2>
+					INGRESO DE DINERO
+					<button type="button" class="btn btn-light" data-toggle="modal"
+						data-target="#modalDeposito">...</button>
+				</h2>
+				<br>
+				<br>
+				<br>
+				<h2>
+					SALIR <a class="btn btn-light" th:href="@{/cliente/home_cliente}">...</a>
+				</h2>
+			</div>
+		</div>
+	</div>
+	<!-- FIN Contenido de la pagina -->
+
+	<!-- Footer -->
+	<footer th:replace="layout/layout.html :: footer"></footer>
+	<!-- FIN Footer -->
 </body>
 </html>

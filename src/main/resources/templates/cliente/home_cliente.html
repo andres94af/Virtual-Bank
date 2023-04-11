@@ -1,42 +1,62 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head th:replace="layout/layout.html :: head"></head>
 
 <body>
-  <header th:replace="layout/layout.html :: header"></header>
-  	<div class="alert alert-success alert-dismissible fade show text-center" role="alert" th:if="${param.act}">
-	  	Se han actualizado sus datos personales satisfactoriamente!
-	  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-	    <span aria-hidden="true">&times;</span>
-	  </button>
-	</div>
+	<!-- Header -->
+	<header th:replace="layout/layout.html :: header"></header>
+	<!-- FIN Header -->
 
+	<!-- Alertas -->
+	<div
+		class="alert alert-success alert-dismissible fade show text-center"
+		role="alert" th:if="${param.act}">
+		Se han actualizado sus datos personales satisfactoriamente!
+		<button type="button" class="close" data-dismiss="alert"
+			aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<!-- FIN Alertas -->
+
+	<!-- Contenido de la pagina -->
 	<div class="container text-center">
 		<h1 class="" th:text="${titulo}"></h1>
 	</div>
-	<br/>
+	<br />
 	<div class="container text-right">
-		<p>Última conexión: <span th:text="${ultimoIngreso.dia}"></span> 
-		/ <span th:text="${ultimoIngreso.hora}"></span>hs.</p>
+		<p>
+			Última conexión: <span th:text="${ultimoIngreso.dia}"></span> / <span
+				th:text="${ultimoIngreso.hora}"></span>hs.
+		</p>
 	</div>
-	
+
 	<div class="container">
-	<div class="row">
-		  <div class="col-sm-6">
-		    <div class="card">
-		      <div class="card-body">
-		        <h4 class="card-title" th:text="'Mi cuenta : ' + ${usuario.numeroCuenta}"></h4>
-		        <hr>
-		        <h5 class="card-text" th:text="'Saldo actual: € ' + ${usuario.saldo}"></h5>
-		        <h5 class="card-text">Ingresos del mes: <span class="text-success" th:text="'€ '+ ${ingresoMensual}"></span></h5>
-		        <h5 class="card-text">Gastos del mes: <span class="text-danger" th:text="'€ '+ ${egresoMensual}"></span></h5>
-		      </div>
-		    </div>
-		    <br/>
-		    <div class="card">
-		      <div class="card-body">
-		        <h4 class="card-title">Últimos movimientos</h4>
-		        		<table class="table table-striped table-hover">
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="card">
+					<div class="card-body">
+						<h4 class="card-title"
+							th:text="'Mi cuenta : ' + ${usuario.numeroCuenta}"></h4>
+						<hr>
+						<h5 class="card-text"
+							th:text="'Saldo actual: € ' + ${usuario.saldo}"></h5>
+						<h5 class="card-text">
+							Ingresos del mes: <span class="text-success"
+								th:text="'€ '+ ${ingresoMensual}"></span>
+						</h5>
+						<h5 class="card-text">
+							Gastos del mes: <span class="text-danger"
+								th:text="'€ '+ ${egresoMensual}"></span>
+						</h5>
+					</div>
+				</div>
+				<br />
+				<div class="card">
+					<div class="card-body">
+						<h4 class="card-title">Últimos movimientos</h4>
+						<table class="table table-striped table-hover">
 							<thead>
 								<tr>
 									<th scope="col">Fecha</th>
@@ -47,39 +67,57 @@
 							<tbody>
 								<tr th:each="movimiento : ${movimientos}">
 									<td th:text="${movimiento.fecha}"></td>
-									<th th:text="'- € ' + ${movimiento.monto}" class="text-danger" th:if="${movimiento.tipo}==E"></th>
-									<th th:text="'+ € ' + ${movimiento.monto}" class="text-success" th:if="${movimiento.tipo}==I"></th>
+									<th th:text="'- € ' + ${movimiento.monto}" class="text-danger"
+										th:if="${movimiento.tipo}==E"></th>
+									<th th:text="'+ € ' + ${movimiento.monto}" class="text-success"
+										th:if="${movimiento.tipo}==I"></th>
 									<td th:text="${movimiento.descripcion}"></td>
 								</tr>
 							</tbody>
 						</table>
-					<a th:href="@{/cliente/movimientos}" class="btn btn-dark btn-block">Ver mas movimientos</a>
-		      </div>
-		    </div>
-		   <br/>
-		  </div>
-		  <div class="col-sm-6">
-		      <div class="card">
-			    <img class="card-img-top" th:src="@{/images/vb_virtualbank_logo.png}" alt="imgTarjeta" style="background-color: #FED102;">
-			    <div class="card-body" th:if="${usuario.tipoDeCuenta}=='Cuenta Joven'">
-			      <h4 class="card-title" th:text="'Tu ' + ${usuario.tipoDeCuenta} + ' tiene para ofrecerte...'"></h4>
-			      <p class="card-text">&#x2022; No pagas nada por tu cuenta, tarjeta de débito virtual y transferencias.</p>
-			      <p class="card-text">&#x2022; Retirada de efectivo a débito sin coste.</p>
-			      <p class="card-text">&#x2022; Tarjeta de credito virtual.</p>
-			      <p class="card-text">&#x2022; SIN comisiones y asistencia telefonica las 24hs.</p>
-			    </div>
-			    <div class="card-body" th:unless="${usuario.tipoDeCuenta}=='Cuenta Joven'">
-			      <h4 class="card-title" th:text="'Tu ' + ${usuario.tipoDeCuenta} + ' tiene para ofrecerte...'"></h4>
-			      <p class="card-text">&#x2022; Retirada de efectivo a débito sin coste desde cajeros adheridos</p>
-			      <p class="card-text">&#x2022; Solo se paga un 1,5% de comisión por movimiento</p>
-			      <p class="card-text">&#x2022; Tarjeta de débito virtual por solo €10</p>
-			      <p class="card-text">&#x2022; Asistencia telefónica las 24hs.</p>
-			    </div>
-			  </div>
-		  </div>
+						<a th:href="@{/cliente/movimientos}"
+							class="btn btn-dark btn-block">Ver mas movimientos</a>
+					</div>
+				</div>
+				<br />
+			</div>
+			<div class="col-sm-6">
+				<div class="card">
+					<img class="card-img-top"
+						th:src="@{/images/vb_virtualbank_logo.png}" alt="imgTarjeta"
+						style="background-color: #FED102;">
+					<div class="card-body"
+						th:if="${usuario.tipoDeCuenta}=='Cuenta Joven'">
+						<h4 class="card-title"
+							th:text="'Tu ' + ${usuario.tipoDeCuenta} + ' tiene para ofrecerte...'"></h4>
+						<p class="card-text">&#x2022; No pagas nada por tu cuenta,
+							tarjeta de débito virtual y transferencias.</p>
+						<p class="card-text">&#x2022; Retirada de efectivo a débito
+							sin coste.</p>
+						<p class="card-text">&#x2022; Tarjeta de credito virtual.</p>
+						<p class="card-text">&#x2022; SIN comisiones y asistencia
+							telefonica las 24hs.</p>
+					</div>
+					<div class="card-body"
+						th:unless="${usuario.tipoDeCuenta}=='Cuenta Joven'">
+						<h4 class="card-title"
+							th:text="'Tu ' + ${usuario.tipoDeCuenta} + ' tiene para ofrecerte...'"></h4>
+						<p class="card-text">&#x2022; Retirada de efectivo a débito
+							sin coste desde cajeros adheridos</p>
+						<p class="card-text">&#x2022; Solo se paga un 1,5% de comisión
+							por movimiento</p>
+						<p class="card-text">&#x2022; Tarjeta de débito virtual por
+							solo €10</p>
+						<p class="card-text">&#x2022; Asistencia telefónica las 24hs.</p>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
+	<!-- FIN Contenido de la pagina -->
 
-  <footer th:replace="layout/layout.html :: footer"></footer>
+	<!-- Footer -->
+	<footer th:replace="layout/layout.html :: footer"></footer>
+	<!-- FIN Footer -->
 </body>
 </html>

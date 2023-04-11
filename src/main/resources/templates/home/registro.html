@@ -4,7 +4,11 @@
 <head th:replace="layout/layout.html :: head"></head>
 
 <body>
+	<!-- Header -->
 	<header th:replace="layout/layout.html :: header"></header>
+	<!-- Fin Header -->
+
+	<!-- Contenido de la pagina -->
 	<div class="container py-2">
 		<h2 class="text-center" th:text="${titulo}"></h2>
 		<h4 class="text-center text-secondary" th:text="${tipoDeCuenta}"></h4>
@@ -13,8 +17,9 @@
 		<div class="card" style="border-radius: 1rem;">
 			<div class="card-body p-4 p-lg-4 text-black">
 				<form th:action="@{/usuario/registrarUsuario}">
-				<input type="hidden" id="tipoDeCuenta" name="tipoDeCuenta" th:value="${tipoDeCuenta}"/>
-				<input type="hidden" id="interes" name="interes" th:value="${interes}"/>
+					<input type="hidden" id="tipoDeCuenta" name="tipoDeCuenta"
+						th:value="${tipoDeCuenta}" /> <input type="hidden" id="interes"
+						name="interes" th:value="${interes}" />
 					<div class="form-row">
 						<div class="form-group col-md-4">
 							<label for="nombre">Nombre :</label> <input type="text"
@@ -83,7 +88,10 @@
 			</div>
 		</div>
 	</div>
+	<!-- FIN Contenido de la pagina -->
 
+	<!-- Footer -->
 	<footer th:replace="layout/layout.html :: footer"></footer>
+	<!-- FIN Footer -->
 </body>
 </html>

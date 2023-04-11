@@ -103,7 +103,7 @@ public class HomeController {
 		return "cliente/cajero_virtual";
 	}
 	
-//METODO QUE ESTRAE EL DINERO DE LA CUENTA Y REDIRECCIONA A LA VISTA DEL CAJERO VIRTUAL (ATM)
+//METODO QUE EXTRAE EL DINERO DE LA CUENTA Y REDIRECCIONA A LA VISTA DEL CAJERO VIRTUAL (ATM)
 	@GetMapping("/cliente/cajero/extraer")
 	private String extraerDineroCajero(HttpSession session, @RequestParam double dinero) {
 		Usuario usuario = usuarioService.findById(Integer.parseInt(session.getAttribute("idusuario").toString())).get();
@@ -115,7 +115,7 @@ public class HomeController {
 		return "redirect:/cliente/cajero?e_exito";
 	}
 	
-//METODO QUE ESTRAE EL DINERO DE LA CUENTA Y REDIRECCIONA A LA VISTA DEL CAJERO VIRTUAL (ATM)
+//METODO QUE INGRESA EL DINERO DE LA CUENTA Y REDIRECCIONA A LA VISTA DEL CAJERO VIRTUAL (ATM)
 	@GetMapping("/cliente/cajero/depositar")
 	private String depositarDineroCajero(HttpSession session, @RequestParam double billete10, @RequestParam double billete20, @RequestParam double billete50, @RequestParam double billete100) {
 		Usuario usuario = usuarioService.findById(Integer.parseInt(session.getAttribute("idusuario").toString())).get();

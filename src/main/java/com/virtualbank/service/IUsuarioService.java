@@ -12,5 +12,5 @@ public interface IUsuarioService {
 	Usuario save(Usuario usuario);
 	Optional<Usuario> findByEmail(String email);
 	String generarNumeroCuenta();
-
+	Optional<Usuario> findByNumeroCuenta(String numeroCuenta);
 }

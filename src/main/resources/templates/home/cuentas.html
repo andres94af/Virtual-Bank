@@ -4,8 +4,11 @@
 <head th:replace="layout/layout.html :: head"></head>
 
 <body>
+	<!-- Header -->
 	<header th:replace="layout/layout.html :: header"></header>
+	<!-- Fin Header -->
 
+	<!-- Contenido de la pagina -->
 	<div class="container">
 		<h1 th:text="${titulo}"></h1>
 	</div>
@@ -13,27 +16,37 @@
 		<div class="row">
 			<div class="col-sm-6">
 				<div class="card">
-					<img class="card-img-top" th:src="@{/images/cuenta_basica.jpg}" alt="Card image cap" style="background-color: #FED102;">
+					<img class="card-img-top" th:src="@{/images/cuenta_basica.jpg}"
+						alt="Card image cap" style="background-color: #FED102;">
 					<div class="card-body">
 						<h5 class="card-title">Cuenta Básica</h5>
-						<p class="card-text">La cuenta para tus gestiones basicas del día a día con las mas bajas comisiones (1.5% por transacción)</p>
-						<a th:href="@{/usuario/registro/c_basica}" class="btn btn-dark btn-lg btn-block">Abrir cuenta básica</a>
+						<p class="card-text">La cuenta para tus gestiones basicas del
+							día a día con las mas bajas comisiones (1.5% por transacción)</p>
+						<a th:href="@{/usuario/registro/c_basica}"
+							class="btn btn-dark btn-lg btn-block">Abrir cuenta básica</a>
 					</div>
 				</div>
 			</div>
 			<div class="col-sm-6">
 				<div class="card">
-					<img class="card-img-top" th:src="@{/images/cuenta_joven.jpg}" alt="Card image cap" style="background-color: #FED102;">
+					<img class="card-img-top" th:src="@{/images/cuenta_joven.jpg}"
+						alt="Card image cap" style="background-color: #FED102;">
 					<div class="card-body">
 						<h5 class="card-title">Cuenta Joven</h5>
-						<p class="card-text">Si eres menor de 30 años. Esta cuenta sin gastos de mantenimiento y administración (TIN 0%, TAE 0%) se adapta a ti</p>
-						<a th:href="@{/usuario/registro/c_joven}" class="btn btn-dark btn-lg btn-block">Abrir cuenta joven</a>
+						<p class="card-text">Si eres menor de 30 años. Esta cuenta sin
+							gastos de mantenimiento y administración (TIN 0%, TAE 0%) se
+							adapta a ti</p>
+						<a th:href="@{/usuario/registro/c_joven}"
+							class="btn btn-dark btn-lg btn-block">Abrir cuenta joven</a>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+	<!-- FIN Contenido de la pagina -->
 
+	<!-- Footer -->
 	<footer th:replace="layout/layout.html :: footer"></footer>
+	<!-- FIN Footer -->
 </body>
 </html>

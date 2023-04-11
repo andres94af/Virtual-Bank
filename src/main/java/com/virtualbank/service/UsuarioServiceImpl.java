@@ -67,4 +67,9 @@ public class UsuarioServiceImpl implements IUsuarioService{
 		return numeroCuenta;
 	}
 
+	@Override
+	public Optional<Usuario> findByNumeroCuenta(String numeroCuenta) {
+		return usuarioRepo.findByNumeroCuenta(numeroCuenta);
+	}
+
 }
