@@ -1,5 +1,6 @@
 package com.virtualbank.controller;
 
+import java.util.Date;
 import java.util.Optional;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.virtualbank.model.Movimientos;
 import com.virtualbank.model.Usuario;
 import com.virtualbank.service.IMovimientosService;
 import com.virtualbank.service.IRegistroIngresoService;
@@ -94,9 +97,39 @@ public class HomeController {
 //METODO QUE REDIRECCIONA A LA VISTA DEL CAJERO VIRTUAL (ATM)
 	@GetMapping("/cliente/cajero")
 	private String cajeroVirtual(Model model, HttpSession session) {
-		model.addAttribute("titulo", "Cajero virtual");
+		Optional<Usuario> usuario = usuarioService.findById(Integer.parseInt(session.getAttribute("idusuario").toString()));
+		model.addAttribute("usuario", usuario.get());
 		model.addAttribute("sesion", session.getAttribute("idusuario"));
 		return "cliente/cajero_virtual";
+	}
+	
+//METODO QUE ESTRAE EL DINERO DE LA CUENTA Y REDIRECCIONA A LA VISTA DEL CAJERO VIRTUAL (ATM)
+	@GetMapping("/cliente/cajero/extraer")
+	private String extraerDineroCajero(HttpSession session, @RequestParam double dinero) {
+		Usuario usuario = usuarioService.findById(Integer.parseInt(session.getAttribute("idusuario").toString())).get();
+		Movimientos movimiento = new Movimientos("E", new Date(), dinero, usuario.getNumeroCuenta(), "Extracción", usuario);
+		double nuevoSaldo = Math.round((usuario.getSaldo()-dinero) * 100.0) / 100.0;
+		usuario.setSaldo(nuevoSaldo);
+		usuarioService.save(usuario);
+		movimientosService.save(movimiento);
+		return "redirect:/cliente/cajero?e_exito";
+	}
+	
+//METODO QUE ESTRAE EL DINERO DE LA CUENTA Y REDIRECCIONA A LA VISTA DEL CAJERO VIRTUAL (ATM)
+	@GetMapping("/cliente/cajero/depositar")
+	private String depositarDineroCajero(HttpSession session, @RequestParam double billete10, @RequestParam double billete20, @RequestParam double billete50, @RequestParam double billete100) {
+		Usuario usuario = usuarioService.findById(Integer.parseInt(session.getAttribute("idusuario").toString())).get();
+		double dineroBilletes10 = billete10 * 10;
+		double dineroBilletes20 = billete20 * 20;
+		double dineroBilletes50 = billete50 * 50;
+		double dineroBilletes100 = billete100 * 100;
+		double dinero = dineroBilletes10+dineroBilletes20+dineroBilletes50+dineroBilletes100;
+		Movimientos movimiento = new Movimientos("I", new Date(), dinero, usuario.getNumeroCuenta(), "Depósito", usuario);
+		double nuevoSaldo = Math.round((usuario.getSaldo()+dinero) * 100.0) / 100.0;
+		usuario.setSaldo(nuevoSaldo);
+		usuarioService.save(usuario);
+		movimientosService.save(movimiento);
+		return "redirect:/cliente/cajero?d_exito";
 	}
 
 //METODO QUE REDIRECCIONA A LA VISTA DE CONSULTAS

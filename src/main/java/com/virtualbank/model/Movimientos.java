@@ -39,9 +39,8 @@ public class Movimientos {
 	
 	public Movimientos() {}
 
-	public Movimientos(Integer id, String tipo, @NotNull Date fecha, double monto, String destino, String descripcion,
+	public Movimientos(String tipo, @NotNull Date fecha, double monto, String destino, String descripcion,
 			Usuario usuario) {
-		this.id = id;
 		this.tipo = tipo;
 		this.fecha = fecha;
 		this.monto = monto;
