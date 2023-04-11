@@ -5,8 +5,88 @@
 <body>
   <header th:replace="layout/layout.html :: header"></header>
 
-	<div class="container">
-		<h1 class="" th:text="${titulo}"></h1>
+<div class="container py-2">
+		<h2 class="text-center" th:text="${titulo}"></h2>
+	</div>
+	<div class="container py-3 h-100">
+		<div class="card" style="border-radius: 1rem;">
+			<div class="card-body p-4 p-lg-4 text-black">
+				<form th:action="@{/usuario/actualizarUsuario}">
+				<input type="hidden" id="id" name="id" th:value="${usuario.id}"/>
+				<input type="hidden" id="interes" name="interes" th:value="${usuario.interes}"/>
+				<input type="hidden" id="limite" name="limite" th:value="${usuario.limite}"/>
+				<input type="hidden" id="numeroCuenta" name="numeroCuenta" th:value="${usuario.numeroCuenta}"/>
+				<input type="hidden" id="rol" name="rol" th:value="${usuario.rol}"/>
+				<input type="hidden" id="saldo" name="saldo" th:value="${usuario.saldo}"/>
+				<input type="hidden" id="tipoDeCuenta" name="tipoDeCuenta" th:value="${usuario.tipoDeCuenta}"/>
+					<div class="form-row">
+						<div class="form-group col-md-4">
+							<label for="nombre">Nombre :</label> <input type="text"
+								class="form-control" id="nombre" name="nombre"
+								placeholder="Ingrese su nombre completo" th:value="${usuario.nombre}" required>
+						</div>
+						<div class="form-group col-md-4">
+							<label for="apellido">Apellido :</label> <input type="text"
+								class="form-control" id="apellido" name="apellido" required
+								placeholder="Ingrese su apellido" th:value="${usuario.apellido}">
+						</div>
+						<div class="form-group col-md-4">
+							<label for="dni">DNI / NIE :</label> <input type="text"
+								class="form-control" id="dni" name="dni" th:value="${usuario.dni}"
+								placeholder="Ingrese su numero de DNI o NIE" required>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="form-group col-md-4">
+							<label for="nacionalidad">Nacionalidad :</label> <input
+								type="text" class="form-control" id="nacionalidad" th:value="${usuario.nacionalidad}"
+								name="nacionalidad" placeholder="Ingrese su nacionalidad" required>
+						</div>
+						<div class="form-group col-md-4">
+							<label for="fechaNacimiento">Fecha de nacimiento :</label> <input
+								type="date" class="form-control" id="fechaNacimiento" required
+								name="fechaNacimiento" th:value="${usuario.fechaNacimiento}">
+						</div>
+						<div class="form-group col-md-4">
+							<label for="genero">Genero :</label> <select id="genero"
+								name="genero" class="form-control" required>
+								<option selected th:text="${usuario.genero}" th:value="${usuario.genero}">--Seleccione una opción--</option>
+								<option value="Femenino">Femenino</option>
+								<option value="Masculino">Masculino</option>
+								<option value="Otro">Otro</option>
+							</select>
+						</div>
+
+					</div>
+					<div class="form-row">
+						<div class="form-group col-md-8">
+							<label for="direccion">Dirección :</label> <input type="text"
+								class="form-control" id="direccion" name="direccion" required
+								placeholder="Ingrese su dirección" th:value="${usuario.direccion}">
+						</div>
+						<div class="form-group col-md-4">
+							<label for="telefono">Telefono :</label> <input type="text"
+								class="form-control" id="telefono" name="telefono" th:value="${usuario.telefono}"
+								placeholder="Ingrese su numero de telefono o movil" required>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="form-group col-md-6">
+							<label for="email">Email :</label> <input type="email"
+								class="form-control" id="email" name="email" th:value="${usuario.email}"
+								placeholder="Ingrese su dirección email" required>
+						</div>
+						<div class="form-group col-md-6">
+							<label for="password">Contraseña :</label> <input type="password"
+								class="form-control" id="password" name="password"
+								placeholder="Ingrese su contraseña" value="" required>
+						</div>
+					</div>
+					<hr>
+					<button type="submit" class="btn btn-dark btn-lg btn-block">Actualizar</button>
+				</form>
+			</div>
+		</div>
 	</div>
 
   <footer th:replace="layout/layout.html :: footer"></footer>

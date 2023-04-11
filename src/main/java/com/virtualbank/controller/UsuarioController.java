@@ -74,4 +74,13 @@ public String iniciarSesion(HttpSession session, Model model) {
 	return "redirect:/";
 }
 
+//METODO QUE ACTUALIZA LOS DATOS DEL CLIENTE Y REDIRECCIONA A LA HOME DEL CLIENTE
+@GetMapping("/actualizarUsuario")
+private String actualizarUsuario(Usuario usuario) {
+	usuario.setPassword(encoder.encode(usuario.getPassword()));
+	usuario.setActivo(true);
+	usuarioService.save(usuario);
+	return "redirect:/cliente/home_cliente?act";
+}
+
 }

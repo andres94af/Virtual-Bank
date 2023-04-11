@@ -51,8 +51,10 @@ public class HomeController {
 //METODO QUE REDIRECCIONA A LA VISTA DE DATOS DEL CLIENTE
 	@GetMapping("/cliente/mis_datos")
 	private String verDatos(Model model, HttpSession session) {
+		Optional<Usuario> usuario = usuarioService.findById(Integer.parseInt(session.getAttribute("idusuario").toString()));
 		model.addAttribute("titulo", "Mis datos");
 		model.addAttribute("sesion", session.getAttribute("idusuario"));
+		model.addAttribute("usuario", usuario.get());
 		return "cliente/datos_personales";
 	}
 	
@@ -66,6 +68,7 @@ public class HomeController {
 		model.addAttribute("usuario", usuario.get());
 		model.addAttribute("ingresoMensual", movimientosService.obtenerIngresoMensual(usuario.get()));
 		model.addAttribute("egresoMensual", movimientosService.obtenerEgresoMensual(usuario.get()));
+		model.addAttribute("movimientos", movimientosService.findByUsuario(usuario.get()).subList(0, 5));
 		return "cliente/home_cliente";
 	}
 
@@ -113,8 +116,12 @@ public class HomeController {
 	}
 	
 //METODO QUE REDIRECCIONA A LA VISTA LOGIN
+//SI ESTA LOGUEADO REDIRECCIONA A HOME
 	@GetMapping("/login")
-	public String loginPage(Model model) {
+	public String loginPage(Model model, HttpSession session) {
+		if (session.getAttribute("idusuario")!=null) {
+			return "redirect:/";
+		}
 		model.addAttribute("titulo", "Inicia sesión en tu cuenta");
 		return "login";
 	}
