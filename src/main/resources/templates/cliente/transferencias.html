@@ -9,24 +9,24 @@
 	<!-- Fin Header -->
 
 	<!-- Alertas -->
-	<div
-		class="alert alert-danger alert-dismissible fade show text-center"
+	<div class="alert alert-danger alert-dismissible fade show text-center"
 		role="alert" th:if="${param.t_error}">
-		No se ha podido enviar la transferencia, porque no se encontro cuenta de destino!
+		No se ha podido enviar la transferencia, porque no se encontro cuenta
+		de destino!
 		<button type="button" class="close" data-dismiss="alert"
 			aria-label="Close">
 			<span aria-hidden="true">&times;</span>
 		</button>
 	</div>
-	<div
-		class="alert alert-danger alert-dismissible fade show text-center"
+	<div class="alert alert-danger alert-dismissible fade show text-center"
 		role="alert" th:if="${param.t_insuficiente}">
 		No tiene saldo suficiente!
 		<button type="button" class="close" data-dismiss="alert"
 			aria-label="Close">
 			<span aria-hidden="true">&times;</span>
 		</button>
-	</div>>
+	</div>
+	>
 	<!-- FIN Alertas -->
 
 	<!-- Contenido de la pagina -->
@@ -37,8 +37,13 @@
 		<div class="container py-3 h-100">
 			<div class="card" style="border-radius: 1rem;">
 				<div class="card-body p-4 p-lg-4 text-black">
-				<p>Saldo en cuenta : € <span th:text="${usuarioLogueado.saldo}"></span></p>
-				<p>Saldo disponible para transferencias : € <span th:text="${saldoTransf}"></span></p>
+					<p>
+						Saldo en cuenta : € <span th:text="${usuarioLogueado.saldo}"></span>
+					</p>
+					<p>
+						Saldo disponible para transferencias : € <span
+							th:text="${saldoTransf}"></span>
+					</p>
 					<form th:action="@{/cliente/transferencias/enviarTransferencia}">
 						<div class="form-row">
 							<div class="form-group col-md-4">
@@ -59,8 +64,9 @@
 							</div>
 							<div class="form-group col-md-3">
 								<label for="monto">Monto :</label> <input step="0.10" min="0"
-									max="1000" type="number" class="form-control" id="monto"
-									required name="monto" placeholder="00.0">
+									type="number" class="form-control" id="monto"
+									th:max="${saldoTransf}" required name="monto"
+									placeholder="00.0">
 							</div>
 						</div>
 						<hr>
