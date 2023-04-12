@@ -61,6 +61,86 @@
 	</header>
 	<!-- FIN Fragmento Header HOME -->
 
+	<!-- Fragmento Alertas -->
+	<div th:fragment="alertas">
+		<div
+			class="alert alert-danger alert-dismissible fade show text-center"
+			role="alert" th:if="${param.t_error}">
+			No se ha podido enviar la transferencia, porque no se encontro cuenta
+			de destino!
+			<button type="button" class="close" data-dismiss="alert"
+				aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div
+			class="alert alert-danger alert-dismissible fade show text-center"
+			role="alert" th:if="${param.t_insuficiente}">
+			No tiene saldo suficiente!
+			<button type="button" class="close" data-dismiss="alert"
+				aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div
+			class="alert alert-danger alert-dismissible fade show text-center"
+			role="alert" th:if="${param.u_inactivo}">
+			Su cuenta se encuenta inactiva para realizar este tipo de
+			operaciones. Pongase en contacto con atención al cliente para mas
+			información
+			<button type="button" class="close" data-dismiss="alert"
+				aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div
+			class="alert alert-success alert-dismissible fade show text-center"
+			role="alert" th:if="${param.e_exito}">
+			La extracción fue exitosa! Recuerde cerrar su sesión al salir
+			<button type="button" class="close" data-dismiss="alert"
+				aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div
+			class="alert alert-success alert-dismissible fade show text-center"
+			role="alert" th:if="${param.d_exito}">
+			El deposito fue exitoso! Recuerde cerrar su sesión al salir
+			<button type="button" class="close" data-dismiss="alert"
+				aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div
+			class="alert alert-success alert-dismissible fade show text-center"
+			role="alert" th:if="${param.act}">
+			Se han actualizado sus datos personales satisfactoriamente!
+			<button type="button" class="close" data-dismiss="alert"
+				aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div
+			class="alert alert-success alert-dismissible fade show text-center"
+			role="alert" th:if="${param.t_exito}">
+			Se ha enviado la transferencia correctamente!
+			<button type="button" class="close" data-dismiss="alert"
+				aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div
+			class="alert alert-success alert-dismissible fade show text-center"
+			role="alert" th:if="${param.logout}">
+			Ha cerrado sesión correctamente. Lo esperamos pronto!
+			<button type="button" class="close" data-dismiss="alert"
+				aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+	</div>
+	<!-- FIN Fragmento Alertas -->
+
 	<!-- Fragmento Footer + Scripts -->
 	<footer class="container text-center" th:fragment="footer"
 		style="margin-top: 1rem;">

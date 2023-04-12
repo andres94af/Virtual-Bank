@@ -32,6 +32,8 @@ class VirtualBankApplicationTests {
 
 	@Test
 	void contextLoads() {
-
+		Usuario usuario = usuarioService.findById(1).get();
+		usuario.setActivo(true);
+		usuarioService.save(usuario);
 	}
 }

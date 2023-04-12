@@ -1,12 +1,8 @@
 package com.virtualbank.controller;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
-
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -136,17 +132,20 @@ public class HomeController {
 		Optional<Usuario> usuario1 = usuarioService
 				.findById(Integer.parseInt(session.getAttribute("idusuario").toString()));
 		Optional<Usuario> usuario2 = usuarioService.findByNumeroCuenta(ctaDestino);
-		double interes = (monto / 100) * usuario1.get().getInteres();
-		boolean saldoSuficiente = usuario1.get().getSaldo() > monto + interes;
-		if (saldoSuficiente) {
-			if (usuario1.isPresent() && usuario2.isPresent()) {
-				movimientosService.generarTransferencia(usuario1, usuario2, monto, ctaDestino, interes);
-				return "redirect:/cliente/home_cliente?t_exito";
-			} else {
-				return "redirect:/cliente/transferencias?t_error";
+		if(usuario1.get().isActivo()) {
+			double interes = (monto / 100) * usuario1.get().getInteres();
+			boolean saldoSuficiente = usuario1.get().getSaldo() > monto + interes;
+			if (saldoSuficiente) {
+				if (usuario1.isPresent() && usuario2.isPresent()) {
+					movimientosService.generarTransferencia(usuario1, usuario2, monto, ctaDestino, interes);
+					return "redirect:/cliente/home_cliente?t_exito";
+				} else {
+					return "redirect:/cliente/transferencias?t_error";
+				}
 			}
+			return "redirect:/cliente/transferencias?t_insuficiente";
 		}
-		return "redirect:/cliente/transferencias?t_insuficiente";
+		return "redirect:/cliente/transferencias?u_inactivo";
 	}
 
 //METODO QUE REDIRECCIONA A LA VISTA DEL CAJERO VIRTUAL (ATM)
@@ -164,27 +163,33 @@ public class HomeController {
 	@GetMapping("/cliente/cajero/extraer")
 	private String extraerDineroCajero(HttpSession session, @RequestParam double dinero) {
 		Optional<Usuario> usuario = usuarioService.findById(Integer.parseInt(session.getAttribute("idusuario").toString()));
-		double interes = (dinero / 100) * usuario.get().getInteres();
-		boolean saldoSuficiente = usuario.get().getSaldo() > dinero + interes;
-		if (saldoSuficiente) {
-			movimientosService.generarExtraccion(usuario, dinero);
-			return "redirect:/cliente/cajero?e_exito";
+		if(usuario.get().isActivo()) {
+			double interes = (dinero / 100) * usuario.get().getInteres();
+			boolean saldoSuficiente = usuario.get().getSaldo() > dinero + interes;
+			if (saldoSuficiente) {
+				movimientosService.generarExtraccion(usuario, dinero);
+				return "redirect:/cliente/cajero?e_exito";
+			}
+			return "redirect:/cliente/cajero?e_insuficiente";
 		}
-		return "redirect:/cliente/cajero?e_insuficiente";
+		return "redirect:/cliente/cajero?u_inactivo";
 	}
 
 //METODO QUE INGRESA EL DINERO DE LA CUENTA Y REDIRECCIONA A LA VISTA DEL CAJERO VIRTUAL (ATM)
 	@GetMapping("/cliente/cajero/depositar")
 	private String depositarDineroCajero(HttpSession session, @RequestParam double billete10,
 			@RequestParam double billete20, @RequestParam double billete50, @RequestParam double billete100) {
-		Usuario usuario = usuarioService.findById(Integer.parseInt(session.getAttribute("idusuario").toString())).get();
+		Optional<Usuario> usuario = usuarioService.findById(Integer.parseInt(session.getAttribute("idusuario").toString()));
 		double dineroBilletes10 = billete10 * 10;
 		double dineroBilletes20 = billete20 * 20;
 		double dineroBilletes50 = billete50 * 50;
 		double dineroBilletes100 = billete100 * 100;
 		double dinero = dineroBilletes10 + dineroBilletes20 + dineroBilletes50 + dineroBilletes100;
-		movimientosService.generarDeposito(usuario, dinero);
-		return "redirect:/cliente/cajero?d_exito";
+		if(usuario.get().isActivo()) {
+			movimientosService.generarDeposito(usuario.get(), dinero);
+			return "redirect:/cliente/cajero?d_exito";
+		}
+		return "redirect:/cliente/cajero?u_inactivo";
 	}
 
 //METODO QUE REDIRECCIONA A LA VISTA DE CONSULTAS
