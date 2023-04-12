@@ -65,7 +65,7 @@
 	<footer class="container text-center" th:fragment="footer"
 		style="margin-top: 1rem;">
 		<p>
-			Virtual Bank &copy; - Andres Mariano Fernández <span id="año"></span>
+			Virtual Bank &copy; - Andres Mariano Fernández <span id="añoFooter"></span>
 		</p>
 		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
 			integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
@@ -80,8 +80,10 @@
 			crossorigin="anonymous"></script>
 		<script>
 			var date = new Date();
-			document.getElementById("año").innerHTML = date.getFullYear();
-			document.getElementById("fecha").innerHTML = date.toLocaleString();
+			document.getElementById("añoFooter").innerHTML = date.getFullYear();
+			document.getElementById("fecha1").innerHTML = date.toLocaleString();
+			document.getElementById("fecha2").innerHTML = date.toLocaleString();
+			document.getElementById("fecha3").innerHTML = date.toLocaleString();
 		</script>
 		<script>
 			document.addEventListener('DOMContentLoaded', function() {

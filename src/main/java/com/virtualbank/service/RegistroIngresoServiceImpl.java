@@ -46,11 +46,11 @@ public class RegistroIngresoServiceImpl implements IRegistroIngresoService{
 	@Override
 	public RegistroIngreso findLast(Usuario usuario) {
 		List<RegistroIngreso> listaDeIngresos = findByUsuario(usuario);
-		Integer ultimoId = listaDeIngresos.size();
-		if (!ultimoId.equals(1)) {
-			return findById(ultimoId-1).get();			
+		Integer cantidadObjetos = listaDeIngresos.size();
+		if (cantidadObjetos>1) {
+			return listaDeIngresos.get(cantidadObjetos-2);			
 		}
-		return findById(1).get();
+		return listaDeIngresos.get(0);
 	}
 
 	@Override
