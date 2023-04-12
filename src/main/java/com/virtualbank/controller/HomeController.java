@@ -1,5 +1,6 @@
 package com.virtualbank.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -39,7 +40,6 @@ public class HomeController {
 	public String home(Model model, HttpSession session) {
 		model.addAttribute("titulo", "Hola desde home");
 		model.addAttribute("sesion", session.getAttribute("idusuario"));
-		System.out.println(session.getAttribute("idusuario"));
 		return "home/home";
 	}
 
@@ -74,10 +74,10 @@ public class HomeController {
 		List<Movimientos> movimientos = movimientosService.findByUsuario(usuario.get());
 		if (movimientos.isEmpty()) {
 			model.addAttribute("movimientos", null);
-		}else if(movimientos.size()<5){
+		} else if (movimientos.size() < 5) {
 			int cantFilas = movimientos.size();
 			model.addAttribute("movimientos", movimientosService.findByUsuario(usuario.get()).subList(0, cantFilas));
-		}else {
+		} else {
 			model.addAttribute("movimientos", movimientosService.findByUsuario(usuario.get()).subList(0, 5));
 		}
 		return "cliente/home_cliente";
@@ -93,32 +93,61 @@ public class HomeController {
 		return "cliente/movimientos";
 	}
 
+//METODO QUE FILTRA LOS MOVIMIENTOS DEL CLIENTE
+	@GetMapping("/cliente/movimientos/filtrar")
+	private String filtrarMovimientos(Model model, HttpSession session) {
+		Optional<Usuario> usuario = usuarioService.findById(Integer.parseInt(session.getAttribute("idusuario").toString()));
+		model.addAttribute("titulo", "Movimientos históricos");
+		model.addAttribute("sesion", session.getAttribute("idusuario"));
+		List<Movimientos> movimientos = movimientosService.findByUsuario(usuario.get());
+		List<Movimientos> movimientosFiltrados = new ArrayList<Movimientos>();
+
+		// aqui se aplica el filtro
+		// <------------------------------------------------------
+
+		model.addAttribute("movimientos", movimientosFiltrados);
+		return "cliente/movimientos";
+	}
+
 //METODO QUE REDIRECCIONA A LA VISTA PARA REALIZAR TRANSFERENCIAS
 	@GetMapping("/cliente/transferencias")
 	private String verTransferencias(Model model, HttpSession session) {
 		Usuario usuario = usuarioService.findById(Integer.parseInt(session.getAttribute("idusuario").toString())).get();
 		List<Usuario> usuarios = usuarioService.findAll();
 		usuarios.remove(usuario);
-		model.addAttribute("usuarioLogueado", usuario);
-		model.addAttribute("usuarios", usuarios);
 		model.addAttribute("titulo", "Transferencias");
 		model.addAttribute("sesion", session.getAttribute("idusuario"));
-		System.out.println(session.getAttribute("idusuario"));
+		model.addAttribute("usuarioLogueado", usuario);
+		double interes = (usuario.getSaldo()/100) * usuario.getInteres();
+		model.addAttribute("saldoTransf", (Math.round((usuario.getSaldo() - interes) * 100.0) / 100.0));
+		model.addAttribute("usuarios", usuarios);
 		return "cliente/transferencias";
 	}
-	
+
 //METODO QUE TRANSFIERE DE UNA CUENTA A OTRA Y REDIRECCION A LA VISTA HOME DEL CLIENTE
 	@GetMapping("/cliente/transferencias/enviarTransferencia")
-	private String verTransferencias(HttpSession session, @RequestParam double monto, @RequestParam String ctaDestino) {
-		System.out.println(monto + " - " + ctaDestino);
-//		FALTA CODIGO QUE RESTA y SUMA el monto
-		return "redirect:/cliente/home_cliente?t_exito";
+	private String enviarTransferencias(HttpSession session, @RequestParam double monto, @RequestParam String ctaDestino) {
+		Optional<Usuario> usuario1 = usuarioService.findById(Integer.parseInt(session.getAttribute("idusuario").toString()));
+		Optional<Usuario> usuario2 = usuarioService.findByNumeroCuenta(ctaDestino);
+		double interes = (monto / 100) * usuario1.get().getInteres();
+		boolean saldoSuficiente = usuario1.get().getSaldo()>monto+interes;
+		if (saldoSuficiente) {
+			if (usuario1.isPresent() && usuario2.isPresent()) {
+				movimientosService.generarTransferencia(usuario1, usuario2, monto, ctaDestino, interes);
+				return "redirect:/cliente/home_cliente?t_exito";
+			}else {
+				return "redirect:/cliente/transferencias?t_error";			
+			}
+		}
+		return "redirect:/cliente/transferencias?t_insuficiente";
 	}
 
 //METODO QUE REDIRECCIONA A LA VISTA DEL CAJERO VIRTUAL (ATM)
 	@GetMapping("/cliente/cajero")
 	private String cajeroVirtual(Model model, HttpSession session) {
 		Optional<Usuario> usuario = usuarioService.findById(Integer.parseInt(session.getAttribute("idusuario").toString()));
+		double interes = (usuario.get().getSaldo()/100) * usuario.get().getInteres();
+		model.addAttribute("saldoTransf", (Math.round((usuario.get().getSaldo() - interes) * 100.0) / 100.0));
 		model.addAttribute("usuario", usuario.get());
 		model.addAttribute("sesion", session.getAttribute("idusuario"));
 		return "cliente/cajero_virtual";
@@ -127,14 +156,14 @@ public class HomeController {
 //METODO QUE EXTRAE EL DINERO DE LA CUENTA Y REDIRECCIONA A LA VISTA DEL CAJERO VIRTUAL (ATM)
 	@GetMapping("/cliente/cajero/extraer")
 	private String extraerDineroCajero(HttpSession session, @RequestParam double dinero) {
-		Usuario usuario = usuarioService.findById(Integer.parseInt(session.getAttribute("idusuario").toString())).get();
-		double interes = (dinero/100)*usuario.getInteres();
-		Movimientos movimiento = new Movimientos("E", new Date(), dinero, interes, usuario.getNumeroCuenta(), "Extracción", usuario);
-		double nuevoSaldo = Math.round((usuario.getSaldo() - dinero - interes) * 100.0) / 100.0;
-		usuario.setSaldo(nuevoSaldo);
-		usuarioService.save(usuario);
-		movimientosService.save(movimiento);
-		return "redirect:/cliente/cajero?e_exito";
+		Optional<Usuario> usuario = usuarioService.findById(Integer.parseInt(session.getAttribute("idusuario").toString()));
+		double interes = (dinero / 100) * usuario.get().getInteres();
+		boolean saldoSuficiente = usuario.get().getSaldo()>dinero+interes;
+		if (saldoSuficiente) {
+			movimientosService.generarExtraccion(usuario, dinero);
+			return "redirect:/cliente/cajero?e_exito";			
+		}
+		return "redirect:/cliente/cajero?e_insuficiente";
 	}
 
 //METODO QUE INGRESA EL DINERO DE LA CUENTA Y REDIRECCIONA A LA VISTA DEL CAJERO VIRTUAL (ATM)
@@ -147,12 +176,7 @@ public class HomeController {
 		double dineroBilletes50 = billete50 * 50;
 		double dineroBilletes100 = billete100 * 100;
 		double dinero = dineroBilletes10 + dineroBilletes20 + dineroBilletes50 + dineroBilletes100;
-		double interes = (dinero/100)*usuario.getInteres();
-		Movimientos movimiento = new Movimientos("I", new Date(), dinero, interes, usuario.getNumeroCuenta(), "Depósito", usuario);
-		double nuevoSaldo = Math.round((usuario.getSaldo() - dinero - interes) * 100.0) / 100.0;
-		usuario.setSaldo(nuevoSaldo);
-		usuarioService.save(usuario);
-		movimientosService.save(movimiento);
+		movimientosService.generarDeposito(usuario, dinero);
 		return "redirect:/cliente/cajero?d_exito";
 	}
 
