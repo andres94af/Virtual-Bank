@@ -10,7 +10,25 @@
 
 	<!-- Contenido de la pagina -->
 	<div class="container">
-		<h1 class="" th:text="${titulo}"></h1>
+		<nav class="navbar navbar-light bg-light justify-content-between">
+			<a class="navbar-brand" th:text="${titulo}"></a>
+			<form class="form-inline">
+				<div class="form-group">
+					<label for="tipo" class="mr-sm-2">Filtrar por</label><select
+						id="tipo" name="tipo" class="form-control mr-sm-2">
+						<option value="I" selected>Ingresos</option>
+						<option value="E">Egresos</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="valorFiltro" class="mr-sm-2">Fecha</label> <input
+						class="form-control mr-sm-2" type="date"
+						placeholder="Ingrese valor" aria-label="Search" id="valorFiltro"
+						name="valorFiltro">
+				</div>
+				<button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Filtrar</button>
+			</form>
+		</nav>
 	</div>
 	<div class="container">
 		<table class="table table-striped table-hover">
@@ -32,7 +50,7 @@
 						th:if="${movimiento.tipo}==E"></th>
 					<th th:text="'+ € ' + ${movimiento.monto}" class="text-success"
 						th:if="${movimiento.tipo}==I"></th>
-						<td th:text="'- € ' + ${movimiento.interes}"></td>
+					<td th:text="'- € ' + ${movimiento.interes}"></td>
 					<td th:text="${movimiento.destino}"></td>
 					<td th:text="${movimiento.descripcion}"></td>
 				</tr>
