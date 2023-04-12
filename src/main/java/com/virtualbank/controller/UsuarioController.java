@@ -23,7 +23,7 @@ public class UsuarioController {
 
 	@Autowired
 	private IRegistroIngresoService registrarIngresoService;
-	
+
 	@Autowired
 	private MailService mailService;
 
@@ -61,7 +61,8 @@ public class UsuarioController {
 		return "redirect:/login";
 	}
 
-//METODO QUE DA EL ATRIBUTO A "idusuario" AL MOMENTO DE INICIAR SESION
+//METODO QUE DA EL ATRIBUTO A "idusuario" AL MOMENTO DE INICIAR SESION Y REDIRECCIONA A LA VISTA QUE CORRESPONDE
+//SEGUN SI ES CLI O ADMIN
 	@GetMapping("/acceder")
 	public String iniciarSesion(HttpSession session, Model model) {
 		Optional<Usuario> user = usuarioService.findById(Integer.parseInt(session.getAttribute("idusuario").toString()));
@@ -69,10 +70,8 @@ public class UsuarioController {
 			session.setAttribute("idusuario", user.get().getId());
 			registrarIngresoService.nuevoRegistro(user.get());
 			if (user.get().getRol().equals("ADMIN")) {
-				model.addAttribute("rol", "ADMIN");
-				return "redirect:/";
+				return "redirect:/administrador";
 			} else {
-				model.addAttribute("rol", "CLI");
 				return "redirect:/cliente/home_cliente";
 			}
 		}
@@ -83,7 +82,7 @@ public class UsuarioController {
 	@GetMapping("/actualizarUsuario")
 	private String actualizarUsuario(Usuario usuario) {
 		usuario.setPassword(encoder.encode(usuario.getPassword()));
-		usuario.setActivo(true);
+		usuario.setActivo(usuario.isActivo());
 		usuarioService.save(usuario);
 		return "redirect:/cliente/home_cliente?act";
 	}
