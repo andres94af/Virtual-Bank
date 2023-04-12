@@ -5,7 +5,29 @@
 
 <body>
 	<!-- Header -->
-	<header th:replace="layout/layout.html :: header"></header>
+	<header>
+		<nav class="navbar navbar-expand-lg navbar-light"
+			style="background-color: #FED102;">
+			<div class="container">
+				<a class="navbar-brand" th:href="@{/}"><img
+					th:src="@{/images/vb_virtualbank_logo.png}" width="140" height="40"
+					class="d-inline-block align-top" alt=""></a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse"
+					data-target="#navbarText" aria-controls="navbarText"
+					aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarText">
+					<ul class="navbar-nav mr-auto">
+						<li class="nav-item"><a class="nav-link" th:href="@{/}">Inicio</a>
+						</li>
+						<li class="nav-item"><a class="nav-link"
+							th:href="@{/cuentas}">Cuentas</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</header>
 	<!-- Fin Header -->
 
 	<!-- Contenido de la pagina -->

@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -94,18 +97,20 @@ public class HomeController {
 	}
 
 //METODO QUE FILTRA LOS MOVIMIENTOS DEL CLIENTE
-	@GetMapping("/cliente/movimientos/filtrar")
-	private String filtrarMovimientos(Model model, HttpSession session) {
+	@PostMapping("/cliente/movimientos/filtrar")
+	private String filtrarMovimientos(Model model, HttpSession session, @RequestParam String tipo,
+			@RequestParam String fecha) {
 		Optional<Usuario> usuario = usuarioService.findById(Integer.parseInt(session.getAttribute("idusuario").toString()));
 		model.addAttribute("titulo", "Movimientos históricos");
 		model.addAttribute("sesion", session.getAttribute("idusuario"));
 		List<Movimientos> movimientos = movimientosService.findByUsuario(usuario.get());
-		List<Movimientos> movimientosFiltrados = new ArrayList<Movimientos>();
-
-		// aqui se aplica el filtro
-		// <------------------------------------------------------
-
-		model.addAttribute("movimientos", movimientosFiltrados);
+		if (!tipo.equals("")) {
+			movimientos = movimientos.stream().filter(m -> m.getTipo().equals(tipo)).collect(Collectors.toList());
+		}
+		if (!fecha.equals("")) {
+			movimientos = movimientos.stream().filter(m -> m.getFecha().toString().equals(fecha)).collect(Collectors.toList());
+		}
+		model.addAttribute("movimientos", movimientos);
 		return "cliente/movimientos";
 	}
 
@@ -118,7 +123,7 @@ public class HomeController {
 		model.addAttribute("titulo", "Transferencias");
 		model.addAttribute("sesion", session.getAttribute("idusuario"));
 		model.addAttribute("usuarioLogueado", usuario);
-		double interes = (usuario.getSaldo()/100) * usuario.getInteres();
+		double interes = (usuario.getSaldo() / 100) * usuario.getInteres();
 		model.addAttribute("saldoTransf", (Math.round((usuario.getSaldo() - interes) * 100.0) / 100.0));
 		model.addAttribute("usuarios", usuarios);
 		return "cliente/transferencias";
@@ -126,17 +131,19 @@ public class HomeController {
 
 //METODO QUE TRANSFIERE DE UNA CUENTA A OTRA Y REDIRECCION A LA VISTA HOME DEL CLIENTE
 	@GetMapping("/cliente/transferencias/enviarTransferencia")
-	private String enviarTransferencias(HttpSession session, @RequestParam double monto, @RequestParam String ctaDestino) {
-		Optional<Usuario> usuario1 = usuarioService.findById(Integer.parseInt(session.getAttribute("idusuario").toString()));
+	private String enviarTransferencias(HttpSession session, @RequestParam double monto,
+			@RequestParam String ctaDestino) {
+		Optional<Usuario> usuario1 = usuarioService
+				.findById(Integer.parseInt(session.getAttribute("idusuario").toString()));
 		Optional<Usuario> usuario2 = usuarioService.findByNumeroCuenta(ctaDestino);
 		double interes = (monto / 100) * usuario1.get().getInteres();
-		boolean saldoSuficiente = usuario1.get().getSaldo()>monto+interes;
+		boolean saldoSuficiente = usuario1.get().getSaldo() > monto + interes;
 		if (saldoSuficiente) {
 			if (usuario1.isPresent() && usuario2.isPresent()) {
 				movimientosService.generarTransferencia(usuario1, usuario2, monto, ctaDestino, interes);
 				return "redirect:/cliente/home_cliente?t_exito";
-			}else {
-				return "redirect:/cliente/transferencias?t_error";			
+			} else {
+				return "redirect:/cliente/transferencias?t_error";
 			}
 		}
 		return "redirect:/cliente/transferencias?t_insuficiente";
@@ -146,7 +153,7 @@ public class HomeController {
 	@GetMapping("/cliente/cajero")
 	private String cajeroVirtual(Model model, HttpSession session) {
 		Optional<Usuario> usuario = usuarioService.findById(Integer.parseInt(session.getAttribute("idusuario").toString()));
-		double interes = (usuario.get().getSaldo()/100) * usuario.get().getInteres();
+		double interes = (usuario.get().getSaldo() / 100) * usuario.get().getInteres();
 		model.addAttribute("saldoTransf", (Math.round((usuario.get().getSaldo() - interes) * 100.0) / 100.0));
 		model.addAttribute("usuario", usuario.get());
 		model.addAttribute("sesion", session.getAttribute("idusuario"));
@@ -158,10 +165,10 @@ public class HomeController {
 	private String extraerDineroCajero(HttpSession session, @RequestParam double dinero) {
 		Optional<Usuario> usuario = usuarioService.findById(Integer.parseInt(session.getAttribute("idusuario").toString()));
 		double interes = (dinero / 100) * usuario.get().getInteres();
-		boolean saldoSuficiente = usuario.get().getSaldo()>dinero+interes;
+		boolean saldoSuficiente = usuario.get().getSaldo() > dinero + interes;
 		if (saldoSuficiente) {
 			movimientosService.generarExtraccion(usuario, dinero);
-			return "redirect:/cliente/cajero?e_exito";			
+			return "redirect:/cliente/cajero?e_exito";
 		}
 		return "redirect:/cliente/cajero?e_insuficiente";
 	}
