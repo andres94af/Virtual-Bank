@@ -40,6 +40,9 @@
 			<p class="lead">
 				<span th:text="${error}"></span> - <span th:text="${status}"></span>
 			</p>
+			<p class="lead" th:if="${status} == '403'">
+				<span>No tiene los permisos necesarios para ingresar a esta URL</span>
+			</p>
 		</header>
 	</div>
 	<!-- FIN Contenido de la pagina -->
