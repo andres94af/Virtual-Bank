@@ -1,33 +1,59 @@
-<body>
-	<!-- Fragmento Header ADMINISTRADOR -->
-	<header th:fragment="header">
-		<nav class="navbar navbar-dark bg-dark navbar-expand-lg">
-			<div class="container">
-				<a class="navbar-brand" th:href="@{/administrador}"><img
-					th:src="@{/images/vb_virtualbank_logo.png}" width="140" height="40"
-					class="d-inline-block align-top" alt=""></a>
-				<button class="navbar-toggler" type="button" data-toggle="collapse"
-					data-target="#navbarText" aria-controls="navbarText"
-					aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<div class="collapse navbar-collapse" id="navbarText">
-					<ul class="navbar-nav mr-auto">
-						<li class="nav-item"><a class="nav-link"
-							th:href="@{/administrador}">Inicio</a></li>
-						<li class="nav-item"><a class="nav-link"
-							th:href="@{/administrador}">INICIO 2</a></li>
-					</ul>
-					<div class="btn-group" th:if="${sesion!=null}">
-						<a type="button" class="btn dropdown-toggle" style="color: lightgrey;"
-							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							ADMINISTRADOR - [[${#httpServletRequest.remoteUser}]] </a>
-						<div class="dropdown-menu">
-							<a class="dropdown-item" th:href="@{/logout}">Cerrar sesión</a>
-						</div>
+
+<!-- Fragmento Header ADMINISTRADOR -->
+<header th:fragment="header">
+	<nav class="navbar navbar-dark bg-dark navbar-expand-lg">
+		<div class="container">
+			<a class="navbar-brand" th:href="@{/administrador}"><img
+				th:src="@{/images/vb_virtualbank_logo.png}" width="140" height="40"
+				class="d-inline-block align-top" alt=""></a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#navbarText" aria-controls="navbarText"
+				aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarText">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item"><a class="nav-link"
+						th:href="@{/administrador}">Inicio</a></li>
+					<li class="nav-item"><a class="nav-link"
+						th:href="@{/administrador/clientes}">Clientes</a></li>
+					<li class="nav-item"><a class="nav-link"
+						th:href="@{/administrador/metricas}">Métricas</a></li>
+				</ul>
+				<div class="btn-group" th:if="${sesion!=null}">
+					<a type="button" class="btn dropdown-toggle"
+						style="color: lightgrey;" data-toggle="dropdown"
+						aria-haspopup="true" aria-expanded="false"> ADMIN:
+						[[${#httpServletRequest.remoteUser}]] </a>
+					<div class="dropdown-menu">
+						<a class="dropdown-item" th:href="@{/administrador}">Agregar
+							administrador</a> <a class="dropdown-item" th:href="@{/logout}">Cerrar
+							sesión</a>
 					</div>
 				</div>
 			</div>
-		</nav>
-	</header>
-	<!-- FIN Fragmento Header ADMINISTRADOR-->
+		</div>
+	</nav>
+</header>
+<!-- FIN Fragmento Header ADMINISTRADOR-->
+
+<!-- Fragmento Alertas -->
+<div th:fragment="alertas">
+	<div class="alert alert-danger alert-dismissible fade show text-center"
+		role="alert" th:if="${param.e_error}">
+		No existe en la lista un cliente con el ID seleccionado
+		<button type="button" class="close" data-dismiss="alert"
+			aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="alert alert-info alert-dismissible fade show text-center"
+		role="alert" th:if="${param.e_ok}">
+		Se cambió correctamente el estado del cliente.
+		<button type="button" class="close" data-dismiss="alert"
+			aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+</div>
+<!-- FIN Fragmento Alertas -->

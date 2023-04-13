@@ -69,7 +69,8 @@
 									placeholder="100" min="0" th:max="${usuario.limite}" required>
 							</div>
 						</div>
-						<button type="submit" class="btn btn-info">Extraer</button>
+						<button type="submit" class="btn btn-info"
+						onclick="return confirm('Confirma extracción?');">Extraer</button>
 					</form>
 				</div>
 			</div>
