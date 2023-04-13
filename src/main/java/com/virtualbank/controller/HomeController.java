@@ -104,7 +104,8 @@ public class HomeController {
 			movimientos = movimientos.stream().filter(m -> m.getTipo().equals(tipo)).collect(Collectors.toList());
 		}
 		if (!fecha.equals("")) {
-			movimientos = movimientos.stream().filter(m -> m.getFecha().toString().equals(fecha)).collect(Collectors.toList());
+			movimientos = movimientos.stream().filter(m -> m.getFecha().toString().equals(fecha))
+					.collect(Collectors.toList());
 		}
 		model.addAttribute("movimientos", movimientos);
 		return "cliente/movimientos";
@@ -132,7 +133,7 @@ public class HomeController {
 		Optional<Usuario> usuario1 = usuarioService
 				.findById(Integer.parseInt(session.getAttribute("idusuario").toString()));
 		Optional<Usuario> usuario2 = usuarioService.findByNumeroCuenta(ctaDestino);
-		if(usuario1.get().isActivo()) {
+		if (usuario1.get().isActivo()) {
 			double interes = (monto / 100) * usuario1.get().getInteres();
 			boolean saldoSuficiente = usuario1.get().getSaldo() > monto + interes;
 			if (saldoSuficiente) {
@@ -163,7 +164,7 @@ public class HomeController {
 	@GetMapping("/cliente/cajero/extraer")
 	private String extraerDineroCajero(HttpSession session, @RequestParam double dinero) {
 		Optional<Usuario> usuario = usuarioService.findById(Integer.parseInt(session.getAttribute("idusuario").toString()));
-		if(usuario.get().isActivo()) {
+		if (usuario.get().isActivo()) {
 			double interes = (dinero / 100) * usuario.get().getInteres();
 			boolean saldoSuficiente = usuario.get().getSaldo() > dinero + interes;
 			if (saldoSuficiente) {
@@ -185,7 +186,7 @@ public class HomeController {
 		double dineroBilletes50 = billete50 * 50;
 		double dineroBilletes100 = billete100 * 100;
 		double dinero = dineroBilletes10 + dineroBilletes20 + dineroBilletes50 + dineroBilletes100;
-		if(usuario.get().isActivo()) {
+		if (usuario.get().isActivo()) {
 			movimientosService.generarDeposito(usuario.get(), dinero);
 			return "redirect:/cliente/cajero?d_exito";
 		}

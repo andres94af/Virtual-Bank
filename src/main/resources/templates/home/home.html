@@ -5,9 +5,9 @@
 
 <body>
 	<!-- Modal de inicio (Solo a modo de ejemplo)-->
-	<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
-		id="modalInicio">
-		<div class="modal-dialog modal-dialog-centered modal-lg"
+	<div class="modal fade" tabindex="-1" role="dialog"
+		id="modalInicio" th:if="${sesion==null}">
+		<div class="modal-dialog modal-dialog-centered"
 			role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -20,9 +20,9 @@
 				<div class="modal-body">
 					<p>&#x2022; Obtenga su seguro de manera 100% online y gratuita
 						con Virtual Bank</p>
+					<p>&#x2022; Seguros de vida, seguros para su casa o auto y seguros médicos</p>
 					<p>&#x2022; Asociado a su cuenta con debito automático</p>
-					<p>&#x2022; Asociado a su cuenta con debito automático</p>
-					<p>&#x2022; Asociado a su cuenta con debito automático</p>
+
 					<a href="#" class="btn btn-dark btn-lg btn-block"
 						data-dismiss="modal">Mas info aquí</a>
 				</div>

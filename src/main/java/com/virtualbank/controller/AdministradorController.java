@@ -63,7 +63,6 @@ public class AdministradorController {
 			usuarioService.save(cliente);
 			return "redirect:/administrador/clientes?e_ok";
 		}else{
-			System.out.println("NO EXISTEN CLIENTES CON ESTE ID");
 			return "redirect:/administrador/clientes?e_error";
 		}
 	}
