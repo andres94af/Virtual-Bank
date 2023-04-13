@@ -1,5 +1,6 @@
-![logo](https://raw.githubusercontent.com/andres94af/Virtual-Bank/src/main/resources/static/images/vb_virtualbank_logo_amarillo.png)
-<h1>Virtual Bank &copy; - Spring Boot</h1>
+![logo-vb](https://user-images.githubusercontent.com/104738447/231828913-d0f31098-292d-45c9-a74d-4b09eb2e0035.png)
+
+<h1>Virtual Bank &copy;</h1>
 
 <h3><em>Diseñado en IDE Eclipse utilizando el lenguaje Java, SpringBoot, MySQL, Hibernate, Thymeleaf, Bootstrap</em></h3>
 
