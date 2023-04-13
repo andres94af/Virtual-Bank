@@ -70,7 +70,7 @@ public class AdministradorController {
 //METODO QUE REDIRECCIONA A LA VISTA DE METRICAS
 	@GetMapping("/metricas")
 	public String metricas(Model model, HttpSession session) {
-		model.addAttribute("titulo", "METRICAS");
+		model.addAttribute("titulo", "MÉTRICAS");
 		model.addAttribute("sesion", session.getAttribute("idusuario"));
 		return "administrador/metricas";
 	}

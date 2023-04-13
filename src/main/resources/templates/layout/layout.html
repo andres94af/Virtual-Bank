@@ -166,10 +166,10 @@
 			document.getElementById("fecha3").innerHTML = date.toLocaleString();
 		</script>
 		<script>
-			document.addEventListener('DOMContentLoaded', function() {
+			document.addEventListener('DOMContentLoaded', setTimeout(function() {
 				var miModal = $('#modalInicio');
 				miModal.modal('show');
-			});
+			}, 3000));
 		</script>
 	</footer>
 	<!-- FIN Fragmento Footer + Scripts -->
