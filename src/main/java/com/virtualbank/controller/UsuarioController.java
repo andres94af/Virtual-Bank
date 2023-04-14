@@ -1,6 +1,6 @@
 package com.virtualbank.controller;
 
-import java.util.Date;
+import java.util.Calendar;
 import java.util.Optional;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +56,7 @@ public class UsuarioController {
 		usuario.setNumeroCuenta(usuarioService.generarNumeroCuenta());
 		usuario.setRol("CLI");
 		usuario.setSaldo(0);
-		usuario.setFechaRegistro(new Date());
+		usuario.setFechaRegistro(Calendar.getInstance());
 		usuarioService.save(usuario);
 		registrarIngresoService.nuevoRegistro(usuario);
 		mailService.enviarMailDeRegistro(usuario);

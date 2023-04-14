@@ -1,6 +1,6 @@
 package com.virtualbank.model;
 
-import java.util.Date;
+import java.util.Calendar;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,7 +26,7 @@ public class Movimientos {
 	@NotNull
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date fecha;
+	private Calendar fecha;
 	
 	private double monto;
 	
@@ -41,7 +41,7 @@ public class Movimientos {
 	
 	public Movimientos() {}
 
-	public Movimientos(String tipo, @NotNull Date fecha, double monto, double interes, String destino, String descripcion,
+	public Movimientos(String tipo, @NotNull Calendar fecha, double monto, double interes, String destino, String descripcion,
 			Usuario usuario) {
 		this.tipo = tipo;
 		this.fecha = fecha;
@@ -68,11 +68,11 @@ public class Movimientos {
 		this.tipo = tipo;
 	}
 
-	public Date getFecha() {
+	public Calendar getFecha() {
 		return fecha;
 	}
 
-	public void setFecha(Date fecha) {
+	public void setFecha(Calendar fecha) {
 		this.fecha = fecha;
 	}
 

@@ -1,19 +1,8 @@
 package com.virtualbank;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import com.virtualbank.model.Movimientos;
-import com.virtualbank.model.Usuario;
 import com.virtualbank.service.IMovimientosService;
 import com.virtualbank.service.IRegistroIngresoService;
 import com.virtualbank.service.IUsuarioService;
@@ -32,6 +21,6 @@ class VirtualBankApplicationTests {
 
 	@Test
 	void contextLoads() {
-		System.out.println(ingresoService.ingresoClientesPorDia());
+
 	}
 }

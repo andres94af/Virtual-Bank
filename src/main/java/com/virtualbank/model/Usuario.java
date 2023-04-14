@@ -1,8 +1,7 @@
 package com.virtualbank.model;
 
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -37,12 +36,12 @@ public class Usuario {
 	@NotNull
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date fechaNacimiento;
+	private Calendar fechaNacimiento;
 	
 	@NotNull
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date fechaRegistro;
+	private Calendar fechaRegistro;
 
 	@NotEmpty
 	private String nacionalidad;
@@ -88,7 +87,7 @@ public class Usuario {
 	}
 
 	public Usuario(Integer id, @NotEmpty String nombre, @NotEmpty String apellido, @NotEmpty String dni,
-			@NotNull Date fechaNacimiento, @NotNull Date fechaRegistro, @NotEmpty String nacionalidad, @NotEmpty String direccion,
+			@NotNull Calendar fechaNacimiento, @NotNull Calendar fechaRegistro, @NotEmpty String nacionalidad, @NotEmpty String direccion,
 			@NotEmpty String telefono, @NotEmpty @Email String email, @NotEmpty String genero, String rol,
 			@NotEmpty String password, String numeroCuenta, double saldo, String tipoDeCuenta, double limite, double interes,
 			boolean activo, List<Movimientos> movimientos, List<RegistroIngreso> registroIngreso) {
@@ -141,11 +140,11 @@ public class Usuario {
 		this.apellido = apellido;
 	}
 
-	public Date getFechaNacimiento() {
+	public Calendar getFechaNacimiento() {
 		return fechaNacimiento;
 	}
 
-	public void setFechaNacimiento(Date fechaNacimiento) {
+	public void setFechaNacimiento(Calendar fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 
@@ -277,11 +276,11 @@ public class Usuario {
 		this.interes = interes;
 	}
 
-	public Date getFechaRegistro() {
+	public Calendar getFechaRegistro() {
 		return fechaRegistro;
 	}
 
-	public void setFechaRegistro(Date fechaRegistro) {
+	public void setFechaRegistro(Calendar fechaRegistro) {
 		this.fechaRegistro = fechaRegistro;
 	}
 
