@@ -8,17 +8,17 @@
 
 
 Como ADMIN:
-- Ver informacion de los clientes
-- Editar limites de cuentas
+- Ver informacion básica y detallada de los clientes
+- Ver métricas básicas del banco
 - Bloquear cuentas
-- Ver estadisticas del banco
 
 Como CLI:
 - Crear distintos tipos de cuenta segun la edad
 - Hacer transferencias a clientes del mismo banco
 - Ver y filtrar movimientos de la propia cuenta
-- Modificar datos personales
+- Decargar en PDF el detalle total o filtrado de movimientos
 - Enviar consultas a los administradores
+- Modificar datos personales
 
 Extra**:
 - MODO CAJERO VIRTUAL: Consulta de saldos, extraer o ingresar dinero
