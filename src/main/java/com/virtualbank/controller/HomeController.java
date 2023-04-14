@@ -39,6 +39,10 @@ public class HomeController {
 	public String home(Model model, HttpSession session) {
 		model.addAttribute("titulo", "Hola desde home");
 		model.addAttribute("sesion", session.getAttribute("idusuario"));
+		if (session.getAttribute("idusuario")!=null) {
+			Usuario usuario = usuarioService.findById(Integer.parseInt(session.getAttribute("idusuario").toString())).get();
+			if(usuario.getRol().equals("ADMIN")) return "redirect:/administrador";
+		}
 		return "home/home";
 	}
 

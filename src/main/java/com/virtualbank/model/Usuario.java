@@ -38,6 +38,11 @@ public class Usuario {
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date fechaNacimiento;
+	
+	@NotNull
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date fechaRegistro;
 
 	@NotEmpty
 	private String nacionalidad;
@@ -83,7 +88,7 @@ public class Usuario {
 	}
 
 	public Usuario(Integer id, @NotEmpty String nombre, @NotEmpty String apellido, @NotEmpty String dni,
-			@NotNull Date fechaNacimiento, @NotEmpty String nacionalidad, @NotEmpty String direccion,
+			@NotNull Date fechaNacimiento, @NotNull Date fechaRegistro, @NotEmpty String nacionalidad, @NotEmpty String direccion,
 			@NotEmpty String telefono, @NotEmpty @Email String email, @NotEmpty String genero, String rol,
 			@NotEmpty String password, String numeroCuenta, double saldo, String tipoDeCuenta, double limite, double interes,
 			boolean activo, List<Movimientos> movimientos, List<RegistroIngreso> registroIngreso) {
@@ -92,6 +97,7 @@ public class Usuario {
 		this.apellido = apellido;
 		this.dni = dni;
 		this.fechaNacimiento = fechaNacimiento;
+		this.fechaRegistro = fechaRegistro;
 		this.nacionalidad = nacionalidad;
 		this.direccion = direccion;
 		this.telefono = telefono;
@@ -271,11 +277,21 @@ public class Usuario {
 		this.interes = interes;
 	}
 
+	public Date getFechaRegistro() {
+		return fechaRegistro;
+	}
+
+	public void setFechaRegistro(Date fechaRegistro) {
+		this.fechaRegistro = fechaRegistro;
+	}
+
 	@Override
 	public String toString() {
-		return "Usuario [id=" + id + ", nombre=" + nombre + ", apellido=" + apellido + ", email=" + email + ", rol=" + rol
-				+ ", numeroCuenta=" + numeroCuenta + ", saldo=" + saldo + ", tipoDeCuenta=" + tipoDeCuenta + ", limite="
-				+ limite + ", interes=" + interes + ", activo=" + activo + "]";
+		return "Usuario [nombre=" + nombre + ", fechaRegistro=" + fechaRegistro + ", nacionalidad=" + nacionalidad
+				+ ", email=" + email + ", rol=" + rol + ", numeroCuenta=" + numeroCuenta + ", saldo=" + saldo + ", limite="
+				+ limite + ", activo=" + activo + "]";
 	}
+
+	
 
 }
