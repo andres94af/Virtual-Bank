@@ -87,8 +87,11 @@ public class AdministradorController {
 //METODO QUE REDIRECCIONA A LA VISTA DE METRICAS
 	@GetMapping("/metricas")
 	public String metricas(Model model, HttpSession session) {
-		model.addAttribute("titulo", "MÉTRICAS");
 		model.addAttribute("sesion", session.getAttribute("idusuario"));
+		model.addAttribute("titulo", "MÉTRICAS");
+		model.addAttribute("ingrPromMesAnoAct", movimientosService.obtenerIngresoMensualPromedio());
+		model.addAttribute("egrPromMesAnoAct", movimientosService.obtenerEgresoMensualPromedio());
+		model.addAttribute("promGanXTrans", movimientosService.promedioDeGananciaPorTransaccion());
 		return "administrador/metricas";
 	}
 
