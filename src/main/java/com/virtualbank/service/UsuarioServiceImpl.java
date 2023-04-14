@@ -63,7 +63,6 @@ public class UsuarioServiceImpl implements IUsuarioService{
 		}else{
 			numeroCuenta = comienzo + " " + ultimoId + " " + random1 + " " + random2;
 		}
-		System.out.println("El numero de cuenta generado es: " + numeroCuenta);
 		return numeroCuenta;
 	}
 
