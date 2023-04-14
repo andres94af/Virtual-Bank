@@ -13,4 +13,5 @@ public interface IRegistroIngresoService {
 	RegistroIngreso save(RegistroIngreso registro);
 	RegistroIngreso nuevoRegistro(Usuario usuario);
 	RegistroIngreso findLast(Usuario usuario);
+	double ingresoClientesPorDia();
 }

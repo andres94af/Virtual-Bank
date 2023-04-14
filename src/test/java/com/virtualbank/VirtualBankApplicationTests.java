@@ -32,6 +32,6 @@ class VirtualBankApplicationTests {
 
 	@Test
 	void contextLoads() {
-		System.out.println(movimientosService.obtenerEgresoMensualPromedio());
+		System.out.println(ingresoService.ingresoClientesPorDia());
 	}
 }

@@ -9,28 +9,56 @@
 	<!-- Fin Header -->
 
 	<!-- Contenido de la pagina -->
-	<div class="container text-center mt-2">
+	<div class="container text-center my-2">
 		<h1 class="" th:text="${titulo}"></h1>
 	</div>
 	<div class="container text-center">
-		<div class="row">
-		<div class="col">
-			<h4>Porcentaje de ingreso promedio por mes del año actual: € <span th:text="${ingrPromMesAnoAct}"></span></h4>
-			<h4>Porcentaje de egreso promedio por mes del año actual: € <span th:text="${egrPromMesAnoAct}"></span></h4>
-		</div>
-		</div>
-		<div class="row">
-		<div class="col">
-			<h4>Porcentaje de ganancias por transaccion del año actual es: € <span th:text="${promGanXTrans}"></span></h4>
-		</div>
-		</div>
-		<div class="row">
-			<div class="col">
-				<h4>clientes registrados, ingreso promedio de clientes</h4>
+		<div class="card-deck">
+			<div class="card">
+				<img class="card-img-top" th:src="@{/images/card-1.png}"
+					alt="Card image cap">
+				<div class="card-body">
+					<h4 class="card-title">Clientes</h4>
+					<h6>
+						Registrados: <span th:text="${cliRegistrados}"></span>
+					</h6>
+					<h6>
+						Activos: <span th:text="${cliActivos}" class="text-success"></span>
+					</h6>
+					<h6>
+						Inactivos: <span th:text="${cliInactivos}" class="text-danger"></span>
+					</h6>
+					<h6>
+						Promedio de ingreso por día: <span th:text="${cliXdia}"></span>
+					</h6>
+				</div>
+			</div>
+			<div class="card">
+				<img class="card-img-top" th:src="@{/images/card-2.png}"
+					alt="Card image cap">
+				<div class="card-body">
+					<h4 class="card-title">Ingresos / Egresos</h4>
+					<h6>
+						Ingreso promedio mensual: € <span th:text="${ingrPromMesAnoAct}"></span>
+					</h6>
+					<h6>
+						Engreso promedio mensual: € <span th:text="${egrPromMesAnoAct}"></span>
+					</h6>
+				</div>
+			</div>
+			<div class="card">
+				<img class="card-img-top" th:src="@{/images/card-3.png}"
+					alt="Card image cap">
+				<div class="card-body">
+					<h4 class="card-title">Ganancias</h4>
+					<h6>
+						Promedio ganancia por operación: € <span
+							th:text="${promGanXTrans}"></span>
+					</h6>
+				</div>
 			</div>
 		</div>
 	</div>
-
 	<!-- FIN Contenido de la pagina -->
 
 	<!-- Footer -->

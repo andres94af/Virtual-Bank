@@ -1,7 +1,10 @@
 package com.virtualbank.service;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,6 +59,20 @@ public class RegistroIngresoServiceImpl implements IRegistroIngresoService{
 	@Override
 	public Optional<RegistroIngreso> findById(Integer id) {
 		return registroRepo.findById(id);
+	}
+
+	@Override
+	public double ingresoClientesPorDia() {
+		List<RegistroIngreso> ingresos = findAll();
+		ingresos.removeIf(i->i.getUsuario().getRol().equals("ADMIN"));
+		int totalIngresos = ingresos.size();
+		int diasIguales = 1;
+		for (int i = 1; i < ingresos.size() ; i++) {
+			if(!ingresos.get(i).getDia().equals(ingresos.get(i-1).getDia())) {
+				diasIguales++;
+			}
+		}
+		return totalIngresos/diasIguales;
 	}
 
 }

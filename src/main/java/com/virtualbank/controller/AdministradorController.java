@@ -129,6 +129,10 @@ public class AdministradorController {
 		model.addAttribute("ingrPromMesAnoAct", movimientosService.obtenerIngresoMensualPromedio());
 		model.addAttribute("egrPromMesAnoAct", movimientosService.obtenerEgresoMensualPromedio());
 		model.addAttribute("promGanXTrans", movimientosService.promedioDeGananciaPorTransaccion());
+		model.addAttribute("cliRegistrados", usuarioService.clientesRegistrados());
+		model.addAttribute("cliActivos", usuarioService.numeroClientesActivosInactivos("activo"));
+		model.addAttribute("cliInactivos", usuarioService.numeroClientesActivosInactivos("inactivo"));
+		model.addAttribute("cliXdia", registroIngresoService.ingresoClientesPorDia());
 		return "administrador/metricas";
 	}
 

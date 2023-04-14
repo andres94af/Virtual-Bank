@@ -71,4 +71,25 @@ public class UsuarioServiceImpl implements IUsuarioService{
 		return usuarioRepo.findByNumeroCuenta(numeroCuenta);
 	}
 
+	@Override
+	public int numeroClientesActivosInactivos(String valor) {
+		List<Usuario> clientes = findAll();
+		clientes.removeIf(c -> c.getRol().equals("ADMIN"));
+		if (clientes.isEmpty()) return 0;
+		if (valor.equals("activo")) {
+			clientes.removeIf(c -> c.isActivo()==false);
+		}else {
+			clientes.removeIf(c -> c.isActivo());
+		}
+		return clientes.size();
+	}
+
+	@Override
+	public int clientesRegistrados() {
+		List<Usuario> clientes = findAll();
+		clientes.removeIf(c->c.getRol().equals("ADMIN"));
+		if(clientes.isEmpty()) return 0;
+		return clientes.size();
+	}
+
 }

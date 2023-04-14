@@ -13,4 +13,6 @@ public interface IUsuarioService {
 	Optional<Usuario> findByEmail(String email);
 	String generarNumeroCuenta();
 	Optional<Usuario> findByNumeroCuenta(String numeroCuenta);
+	int numeroClientesActivosInactivos(String valor);
+	int clientesRegistrados();
 }
