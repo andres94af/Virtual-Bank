@@ -7,8 +7,8 @@
 	<!-- Header -->
 	<header th:replace="layout/layout_admin.html :: header"></header>
 	<!-- Fin Header -->
-	
-		<!-- Alertas -->
+
+	<!-- Alertas -->
 	<div th:replace="layout/layout_admin.html :: alertas"></div>
 	<!-- FIN Alertas -->
 
@@ -16,7 +16,7 @@
 	<div class="container text-center">
 		<h1 class="" th:text="${titulo}"></h1>
 	</div>
-	<div class="container">
+	<div class="container mx-3 mx-auto">
 		<table class="table table-hover">
 			<thead>
 				<tr>
@@ -25,9 +25,11 @@
 					<th scope="col">Apellido</th>
 					<th scope="col">DNI</th>
 					<th scope="col">Teléfono</th>
-					<th scope="col">Dirección</th>
+					<th scope="col">Email</th>
+					<th scope="col">Límite</th>
 					<th scope="col">Estado</th>
-					<th scope="col" class=" col-sm-2">Activar/Inactivar</th>
+					<th scope="col">Activar/Inactivar</th>
+					<th scope="col">Info. detallada</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -37,18 +39,23 @@
 					<td th:text="${cliente.apellido}"></td>
 					<td th:text="${cliente.dni}"></td>
 					<td th:text="${cliente.telefono}"></td>
-					<td th:text="${cliente.direccion}"></td>
-					<th th:if="${cliente.activo}" >Activo</th>
+					<td th:text="${cliente.email}"></td>
+					<td th:text="'€ ' + ${cliente.limite}"></td>
+					<th th:if="${cliente.activo}">Activo</th>
 					<th th:unless="${cliente.activo}">Inactivo</th>
-					<td th:if="${cliente.activo}">
-						<a th:href="@{/administrador/clientes/activo/}+${cliente.id}" 
+					<td th:if="${cliente.activo}"><a
+						th:href="@{/administrador/clientes/activo/}+${cliente.id}"
 						class="btn btn-danger btn-sm btn-block"
 						onclick="return confirm('Estas seguro de inactivar al cliente?');">Inactivar</a>
 					</td>
-					<td th:unless="${cliente.activo}">
-						<a th:href="@{/administrador/clientes/activo/}+${cliente.id}" 
+					<td th:unless="${cliente.activo}"><a
+						th:href="@{/administrador/clientes/activo/}+${cliente.id}"
 						class="btn btn-success btn-sm btn-block"
 						onclick="return confirm('Estas seguro de activar al cliente?');">Activar</a>
+					</td>
+					<td><a
+						th:href="@{/administrador/clientes/detalle/}+${cliente.id}"
+						class="btn btn-info btn-sm btn-block">Ver detalle</a>
 					</td>
 				</tr>
 			</tbody>

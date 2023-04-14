@@ -33,8 +33,10 @@ public class AdministradorController {
 //METODO QUE REDIRECCIONA A LA VISTA PRINCIPAL DEL ADMINISTRADOR
 	@GetMapping("")
 	public String home(Model model, HttpSession session) {
-		model.addAttribute("titulo", "ADMINISTRADOR");
+		Optional<Usuario> usuario = usuarioService.findById(Integer.parseInt(session.getAttribute("idusuario").toString()));
+		model.addAttribute("ultimoIngreso", registroIngresoService.findLast(usuario.get()));
 		model.addAttribute("sesion", session.getAttribute("idusuario"));
+		model.addAttribute("titulo", "ADMINISTRADOR");
 		return "administrador/home_administrador";
 	}
 
@@ -65,6 +67,21 @@ public class AdministradorController {
 		}else{
 			return "redirect:/administrador/clientes?e_error";
 		}
+	}
+	
+//METODO QUE REDIRECCIONA A LA VISTA DE DETAES DE CLIENTES
+	@GetMapping("/clientes/detalle/{id}")
+	public String verDetalleCliente(Model model, HttpSession session, @PathVariable Integer id) {
+		Optional<Usuario> clienteOpt = usuarioService.findById(id);
+		model.addAttribute("sesion", session.getAttribute("idusuario"));
+		model.addAttribute("titulo", "Información detallada del cliente");
+		if (!clienteOpt.isEmpty()) {
+			Usuario cliente = clienteOpt.get();
+			model.addAttribute("cliente", cliente);
+		}else {
+			return "redirect:/administrador/clientes";
+		}
+		return "administrador/detalle_clientes";
 	}
 	
 //METODO QUE REDIRECCIONA A LA VISTA DE METRICAS

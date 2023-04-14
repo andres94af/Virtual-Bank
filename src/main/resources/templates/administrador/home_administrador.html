@@ -11,6 +11,10 @@
 	<!-- Contenido de la pagina -->
 	<div class="container text-center">
 		<h1 class="" th:text="${titulo}"></h1>
+		<p class="font-weight-light">
+			Último ingreso: <span th:text="${ultimoIngreso.dia}"></span> / <span
+				th:text="${ultimoIngreso.hora}"></span>hs.
+		</p>
 	</div>
 	<div class="container text-center p-5">
 		<div class="row justify-content-around">

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="layout/layout.html :: head"></head>
+
+<body>
+	<!-- Header -->
+	<header th:replace="layout/layout_admin.html :: header"></header>
+	<!-- Fin Header -->
+
+	<!-- Contenido de la pagina -->
+	<div class="container text-center my-2">
+		<h1 th:text="${titulo} +' '+ ${cliente.nombre}+' '+ ${cliente.apellido}"></h1>
+	</div>
+	<div class="container">
+		<h4>
+			ID : <small th:text="${cliente.id}"></small>
+		</h4>
+		<h4>
+			Nombre : <small th:text="${cliente.nombre}"></small>
+		</h4>
+		<h4>
+			Apellido : <small th:text="${cliente.apellido}"></small>
+		</h4>
+		<h4>
+			Genero : <small th:text="${cliente.genero}"></small>
+		</h4>
+		<h4>
+			Fecha de nacimiento : <small th:text="${cliente.fechaNacimiento}"></small>
+		</h4>
+		<h4>
+			Nacionalidad : <small th:text="${cliente.nacionalidad}"></small>
+		</h4>
+		<h4>
+			DNI : <small th:text="${cliente.dni}"></small>
+		</h4>
+		<h4>
+			Dirección : <small th:text="${cliente.direccion}"></small>
+		</h4>
+		<h4>
+			Teléfono : <small th:text="${cliente.telefono}"></small>
+		</h4>
+		<h4>
+			Email : <small th:text="${cliente.email}"></small>
+		</h4>
+		<h4>
+			Fecha de registro : <small th:text="${cliente.fechaRegistro}"></small>
+		</h4>
+		<h4>
+			Tipo de cuenta : <small th:text="${cliente.tipoDeCuenta}"></small>
+		</h4>
+		<h4>
+			Numero de cuenta : <small th:text="${cliente.numeroCuenta}"></small>
+		</h4>
+		<h4>
+			Limite por operación : <small th:text="'€ ' + ${cliente.limite}"></small>
+		</h4>
+		<h4>
+			Activo / Inactivo : 
+			<small th:if="${cliente.activo}" class="text-success">ACTIVO</small>
+			<small th:unless="${cliente.activo}" class="text-danger">INACTIVO</small>
+		</h4>
+	</div>
+	<!-- FIN Contenido de la pagina -->
+
+	<!-- Footer -->
+	<footer th:replace="layout/layout.html :: footer"></footer>
+	<!-- FIN Footer -->
+</body>
+</html>
