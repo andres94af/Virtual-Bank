@@ -17,11 +17,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.lowagie.text.DocumentException;
 import com.virtualbank.model.Movimientos;
 import com.virtualbank.model.Usuario;
-import com.virtualbank.service.ExportarMovimientosPDF;
 import com.virtualbank.service.IMovimientosService;
 import com.virtualbank.service.IRegistroIngresoService;
 import com.virtualbank.service.IUsuarioService;
-import com.virtualbank.service.MailService;
+import com.virtualbank.utilidades.ExportarMovimientosPDF;
+import com.virtualbank.utilidades.MailService;
 
 @Controller
 @RequestMapping("/")
@@ -149,6 +149,7 @@ public class HomeController {
 		Usuario usuario = usuarioService.findById(Integer.parseInt(session.getAttribute("idusuario").toString())).get();
 		List<Usuario> usuarios = usuarioService.findAll();
 		usuarios.remove(usuario);
+		usuarios.removeIf(u -> u.getRol().equals("ADMIN"));
 		model.addAttribute("titulo", "Transferencias");
 		model.addAttribute("sesion", session.getAttribute("idusuario"));
 		model.addAttribute("usuarioLogueado", usuario);

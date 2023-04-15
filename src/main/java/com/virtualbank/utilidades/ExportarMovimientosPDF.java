@@ -1,4 +1,4 @@
-package com.virtualbank.service;
+package com.virtualbank.utilidades;
 
 import java.awt.Color;
 import java.io.IOException;
@@ -16,6 +16,7 @@ import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 import com.virtualbank.model.Movimientos;
+import com.virtualbank.model.Usuario;
 
 public class ExportarMovimientosPDF {
 
@@ -27,10 +28,10 @@ public class ExportarMovimientosPDF {
 
 	private void escribirCabeceraDeLaTabla(PdfPTable tabla) {
 		PdfPCell celda = new PdfPCell();
-		celda.setBackgroundColor(Color.YELLOW);
+		celda.setBackgroundColor(Color.DARK_GRAY);
 		celda.setPadding(5);
 		Font fuente = FontFactory.getFont(FontFactory.TIMES_ROMAN);
-		fuente.setColor(Color.BLACK);
+		fuente.setColor(Color.WHITE);
 		celda.setPhrase(new Phrase("Ingreso/Egreso", fuente));
 		tabla.addCell(celda);
 		celda.setPhrase(new Phrase("Fecha", fuente));
@@ -57,29 +58,48 @@ public class ExportarMovimientosPDF {
 	}
 
 	public void exportar(HttpServletResponse response) throws DocumentException, IOException {
+		Usuario usuario = listaMovimientos.get(0).getUsuario();
 		Document documento = new Document(PageSize.A4);
 		PdfWriter.getInstance(documento, response.getOutputStream());
 		documento.open();
-		Font fuente = FontFactory.getFont(FontFactory.TIMES);
+		Font fuente = FontFactory.getFont(FontFactory.TIMES_ROMAN);
 		fuente.setColor(Color.BLACK);
 		
 		fuente.setSize(10);
-		Paragraph fecha = new Paragraph(LocalDate.now().toString() , fuente);
-		fecha.setAlignment(Paragraph.ALIGN_RIGHT);
+		Paragraph fecha = new Paragraph("Fecha: " + LocalDate.now(), fuente);
+		fecha.setAlignment(Paragraph.ALIGN_LEFT);
 		documento.add(fecha);
+		
+		String nombreCompleto = usuario.getNombre() + " " + usuario.getApellido();
+		fuente.setSize(10);
+		Paragraph nombre = new Paragraph("Nombre: " + nombreCompleto, fuente);
+		nombre.setAlignment(Paragraph.ALIGN_LEFT);
+		documento.add(nombre);
+		
+		fuente.setSize(10);
+		Paragraph dni = new Paragraph("DNI / NIE: " + usuario.getDni(), fuente);
+		dni.setAlignment(Paragraph.ALIGN_LEFT);
+		documento.add(dni);
 
 		fuente.setSize(18);
-		Paragraph titulo = new Paragraph("Detalle de movimientos cuenta: "+ listaMovimientos.get(0).getUsuario().getNumeroCuenta() , fuente);
+		Paragraph titulo = new Paragraph("Detalle movimientos cuenta: "+ usuario.getNumeroCuenta() , fuente);
 		titulo.setAlignment(Paragraph.ALIGN_CENTER);
 		documento.add(titulo);
 
 		PdfPTable tabla = new PdfPTable(6);
-		tabla.setSpacingBefore(15);
+		tabla.setSpacingBefore(20);
 		tabla.setWidths(new float[] { 1.8f, 1.8f, 1.8f, 1.8f, 2.8f, 1.8f });
 		tabla.setWidthPercentage(110);
 		escribirCabeceraDeLaTabla(tabla);
 		escribirDatosDeLaTabla(tabla);
+		tabla.setSpacingAfter(15);
 		documento.add(tabla);
+		
+		fuente.setSize(10);
+		Paragraph footer = new Paragraph("Virtual Bank © - Andres Mariano Fernández " + LocalDate.now().getYear());
+		footer.setAlignment(Paragraph.ALIGN_CENTER);
+		documento.add(footer);
+		
 		documento.close();
 	}
 }

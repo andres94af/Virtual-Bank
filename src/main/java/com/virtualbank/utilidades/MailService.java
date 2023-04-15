@@ -1,4 +1,4 @@
-package com.virtualbank.service;
+package com.virtualbank.utilidades;
 
 import java.util.Properties;
 import javax.mail.Message;

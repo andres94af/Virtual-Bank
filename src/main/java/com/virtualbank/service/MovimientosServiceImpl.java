@@ -61,7 +61,8 @@ public class MovimientosServiceImpl implements IMovimientosService {
 			}
 			totalMensual = movimientosIgresos.stream().mapToDouble(m -> m.getMonto()).sum();
 			double intereses = movimientosIgresos.stream().mapToDouble(m -> m.getInteres()).sum();
-			return totalMensual-intereses;
+			totalMensual = Math.round((totalMensual-intereses) * 100.0) / 100.0;
+			return totalMensual;
 		} else {
 			return totalMensual;
 		}
@@ -91,7 +92,8 @@ public class MovimientosServiceImpl implements IMovimientosService {
 		String ctaDestino, double interesEnvia) {
 		Usuario usuarioEnvia = usuario1.get();
 		Usuario usuarioRecibe = usuario2.get();
-		Movimientos movimientoEnvia = new Movimientos("E", fechaActual, monto, interesEnvia, ctaDestino, "transferencia",
+		double interesEnviaRed = Math.round((interesEnvia) * 100.0) / 100.0;
+		Movimientos movimientoEnvia = new Movimientos("E", fechaActual, monto, interesEnviaRed, ctaDestino, "Transferencia",
 				usuarioEnvia);
 		Movimientos movimientoRecibe = new Movimientos("I", fechaActual, monto, 0, ctaDestino, "Transferencia",
 				usuarioRecibe);

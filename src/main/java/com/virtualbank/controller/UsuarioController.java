@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.virtualbank.model.Usuario;
 import com.virtualbank.service.IRegistroIngresoService;
 import com.virtualbank.service.IUsuarioService;
-import com.virtualbank.service.MailService;
+import com.virtualbank.utilidades.MailService;
 
 @Controller
 @RequestMapping("/usuario")
@@ -81,7 +81,11 @@ public class UsuarioController {
 			if (user.get().getRol().equals("ADMIN")) {
 				return "redirect:/administrador";
 			} else {
+				if(user.get().isActivo()) {					
 				return "redirect:/cliente/home_cliente";
+				}else {
+					return "redirect:/cliente/home_cliente?inactivo";
+				}
 			}
 		}
 		return "redirect:/";

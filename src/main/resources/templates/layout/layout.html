@@ -65,6 +65,15 @@
 	<div th:fragment="alertas">
 		<div
 			class="alert alert-danger alert-dismissible fade show text-center"
+			role="alert" th:if="${param.inactivo}">
+			Su cuenta se encuentra inactiva, no podrá operar normalmente. Pongase en contacto con atencion al cliente porfavor.
+			<button type="button" class="close" data-dismiss="alert"
+				aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div
+			class="alert alert-danger alert-dismissible fade show text-center"
 			role="alert" th:if="${param.t_error}">
 			No se ha podido enviar la transferencia, porque no se encontro cuenta
 			de destino!
@@ -175,10 +184,11 @@
 			document.getElementById("fecha3").innerHTML = date.toLocaleString();
 		</script>
 		<script>
-			document.addEventListener('DOMContentLoaded', setTimeout(function() {
-				var miModal = $('#modalInicio');
-				miModal.modal('show');
-			}, 3000));
+			document.addEventListener('DOMContentLoaded', setTimeout(
+					function() {
+						var miModal = $('#modalInicio');
+						miModal.modal('show');
+					}, 3000));
 		</script>
 	</footer>
 	<!-- FIN Fragmento Footer + Scripts -->
