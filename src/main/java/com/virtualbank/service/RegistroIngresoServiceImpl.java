@@ -1,7 +1,7 @@
 package com.virtualbank.service;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,10 +35,9 @@ public class RegistroIngresoServiceImpl implements IRegistroIngresoService{
 
 	@Override
 	public RegistroIngreso nuevoRegistro(Usuario usuario) {
-		Date date = new Date();
-		String dia = new SimpleDateFormat("dd/MM/yyyy").format(date);
-		String hora = new SimpleDateFormat("HH:mm").format(date);
-		RegistroIngreso registro = new RegistroIngreso(dia, hora, usuario);
+		LocalDate fechaActual = LocalDate.now();
+		LocalTime horaActual = LocalTime.now();
+		RegistroIngreso registro = new RegistroIngreso(fechaActual, horaActual, usuario);
 		save(registro);
 		return registro;
 	}
@@ -65,7 +64,7 @@ public class RegistroIngresoServiceImpl implements IRegistroIngresoService{
 		int totalIngresos = ingresos.size();
 		int diasIguales = 1;
 		for (int i = 1; i < ingresos.size() ; i++) {
-			if(!ingresos.get(i).getDia().equals(ingresos.get(i-1).getDia())) {
+			if(ingresos.get(i).getDia().compareTo(ingresos.get(i-1).getDia())!=0) {
 				diasIguales++;
 			}
 		}

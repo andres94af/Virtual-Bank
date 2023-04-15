@@ -6,13 +6,18 @@
 
 <p># Funcionalidad para loguearse como administrador o como cliente.(ADMIN o CLI)</p>
 
+<p># Distintas vistas segun si el usuario logueado es ADMIN o CLI</p>
 
-Como ADMIN:
+<p># Envío automático de mail al momento de registrarse con el numero de cuenta bancaria generado</p>
+
+<p># Distintas cuentas segun la edad (mayor o menor a 30 años). Si es mayor se le cobran intereses por transaccion y si es menor esta libre de intereses</p>
+
+**Como ADMIN:**
 - Ver informacion básica y detallada de los clientes
 - Ver métricas básicas del banco
 - Bloquear cuentas
 
-Como CLI:
+**Como CLI:**
 - Crear distintos tipos de cuenta segun la edad
 - Hacer transferencias a clientes del mismo banco
 - Ver y filtrar movimientos de la propia cuenta
@@ -20,11 +25,10 @@ Como CLI:
 - Enviar consultas a los administradores
 - Modificar datos personales
 
-Extra**:
+**Extra**:
 - MODO CAJERO VIRTUAL: Consulta de saldos, extraer o ingresar dinero
 
-<p># Distintas vistas segun si el usuario logueado es ADMIN o CLI</p>
-<p># Envío automático de mail al momento de registrarse con el numero de cuenta bancaria generado</p>
+
 <br/>
 
 <hr/>

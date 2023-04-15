@@ -1,14 +1,12 @@
 package com.virtualbank.model;
 
-import java.util.Calendar;
+import java.time.LocalDate;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -23,10 +21,8 @@ public class Movimientos {
 	
 	private String tipo;
 	
-	@NotNull
-	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Calendar fecha;
+	private LocalDate fecha;
 	
 	private double monto;
 	
@@ -41,7 +37,7 @@ public class Movimientos {
 	
 	public Movimientos() {}
 
-	public Movimientos(String tipo, @NotNull Calendar fecha, double monto, double interes, String destino, String descripcion,
+	public Movimientos(String tipo, @NotNull LocalDate fecha, double monto, double interes, String destino, String descripcion,
 			Usuario usuario) {
 		this.tipo = tipo;
 		this.fecha = fecha;
@@ -68,11 +64,11 @@ public class Movimientos {
 		this.tipo = tipo;
 	}
 
-	public Calendar getFecha() {
+	public LocalDate getFecha() {
 		return fecha;
 	}
 
-	public void setFecha(Calendar fecha) {
+	public void setFecha(LocalDate fecha) {
 		this.fecha = fecha;
 	}
 

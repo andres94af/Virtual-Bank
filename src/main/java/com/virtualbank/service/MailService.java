@@ -78,6 +78,5 @@ public class MailService {
 		} catch (MessagingException me) {
 			me.printStackTrace();
 		}
-		System.out.println("Enviado el mail de registro al usuario: " + usuario);
 	}
 }

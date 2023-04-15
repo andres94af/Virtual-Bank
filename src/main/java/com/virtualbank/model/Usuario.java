@@ -1,6 +1,6 @@
 package com.virtualbank.model;
 
-import java.util.Calendar;
+import java.time.LocalDate;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,8 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -33,15 +31,11 @@ public class Usuario {
 	@NotEmpty
 	private String dni;
 
-	@NotNull
-	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Calendar fechaNacimiento;
+	private LocalDate fechaNacimiento;
 	
-	@NotNull
-	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Calendar fechaRegistro;
+	private LocalDate fechaRegistro;
 
 	@NotEmpty
 	private String nacionalidad;
@@ -87,7 +81,7 @@ public class Usuario {
 	}
 
 	public Usuario(Integer id, @NotEmpty String nombre, @NotEmpty String apellido, @NotEmpty String dni,
-			@NotNull Calendar fechaNacimiento, @NotNull Calendar fechaRegistro, @NotEmpty String nacionalidad, @NotEmpty String direccion,
+			@NotNull LocalDate fechaNacimiento, @NotNull LocalDate fechaRegistro, @NotEmpty String nacionalidad, @NotEmpty String direccion,
 			@NotEmpty String telefono, @NotEmpty @Email String email, @NotEmpty String genero, String rol,
 			@NotEmpty String password, String numeroCuenta, double saldo, String tipoDeCuenta, double limite, double interes,
 			boolean activo, List<Movimientos> movimientos, List<RegistroIngreso> registroIngreso) {
@@ -140,11 +134,11 @@ public class Usuario {
 		this.apellido = apellido;
 	}
 
-	public Calendar getFechaNacimiento() {
+	public LocalDate getFechaNacimiento() {
 		return fechaNacimiento;
 	}
 
-	public void setFechaNacimiento(Calendar fechaNacimiento) {
+	public void setFechaNacimiento(LocalDate fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 
@@ -276,11 +270,11 @@ public class Usuario {
 		this.interes = interes;
 	}
 
-	public Calendar getFechaRegistro() {
+	public LocalDate getFechaRegistro() {
 		return fechaRegistro;
 	}
 
-	public void setFechaRegistro(Calendar fechaRegistro) {
+	public void setFechaRegistro(LocalDate fechaRegistro) {
 		this.fechaRegistro = fechaRegistro;
 	}
 

@@ -1,5 +1,7 @@
 package com.virtualbank;
 
+import java.time.LocalDate;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,7 +22,9 @@ class VirtualBankApplicationTests {
 	IMovimientosService movimientosService;
 
 	@Test
-	void contextLoads() {
-
+	void contextLoads() {	
+		LocalDate dia = LocalDate.now();
+		System.out.println(dia.toString());
+		System.out.println("Hoy es el dia :" + dia.getDayOfMonth());
 	}
 }

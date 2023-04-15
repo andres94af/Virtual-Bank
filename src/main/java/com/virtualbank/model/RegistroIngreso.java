@@ -1,11 +1,15 @@
 package com.virtualbank.model;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "registro_ingreso")
@@ -15,23 +19,25 @@ public class RegistroIngreso {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	private String dia;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate dia;
 	
-	private String hora;
+	@DateTimeFormat(pattern = "HH:mm")
+	private LocalTime hora;
 	
 	@ManyToOne
 	private Usuario usuario;
 	
 	public RegistroIngreso() {}
 
-	public RegistroIngreso(Integer id, String dia, String hora, Usuario usuario) {
+	public RegistroIngreso(Integer id, LocalDate dia, LocalTime hora, Usuario usuario) {
 		this.id = id;
 		this.dia = dia;
 		this.hora = hora;
 		this.usuario = usuario;
 	}
 	
-	public RegistroIngreso(String dia, String hora, Usuario usuario) {
+	public RegistroIngreso(LocalDate dia, LocalTime hora, Usuario usuario) {
 		this.dia = dia;
 		this.hora = hora;
 		this.usuario = usuario;
@@ -45,19 +51,19 @@ public class RegistroIngreso {
 		this.id = id;
 	}
 
-	public String getDia() {
+	public LocalDate getDia() {
 		return dia;
 	}
 
-	public void setDia(String dia) {
+	public void setDia(LocalDate dia) {
 		this.dia = dia;
 	}
 
-	public String getHora() {
+	public LocalTime getHora() {
 		return hora;
 	}
 
-	public void setHora(String hora) {
+	public void setHora(LocalTime hora) {
 		this.hora = hora;
 	}
 

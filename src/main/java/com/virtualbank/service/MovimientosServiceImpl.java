@@ -1,7 +1,7 @@
 package com.virtualbank.service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -20,16 +20,16 @@ public class MovimientosServiceImpl implements IMovimientosService {
 
 	@Autowired
 	private IUsuarioService usuarioService;
+	
+	LocalDate fechaActual = LocalDate.now();
+	int mesActual = fechaActual.getMonthValue();
+	int añoActual = fechaActual.getYear();
+	int diaActual = fechaActual.getDayOfMonth();
 
 	@Override
 	public List<Movimientos> findAll() {
 		return movimientoRepo.findAll();
 	}
-
-	Calendar cal = Calendar.getInstance();
-	int mesActual = cal.get(Calendar.MONTH) + 1;
-	int añoActual = cal.get(Calendar.YEAR);
-	int diaActual = cal.get(Calendar.DAY_OF_MONTH);
 
 	@Override
 	public List<Movimientos> findByUsuario(Usuario usuario) {
@@ -55,7 +55,7 @@ public class MovimientosServiceImpl implements IMovimientosService {
 			List<Movimientos> movimientosIgresos = new ArrayList<Movimientos>();
 			for (Movimientos m : movimientos) {
 				if (m.getTipo().equals("I")
-						&& (m.getFecha().get(Calendar.MONTH)+1 == mesActual && m.getFecha().get(Calendar.YEAR) == añoActual)) {
+						&& (m.getFecha().getMonthValue() == mesActual && m.getFecha().getYear() == añoActual)) {
 					movimientosIgresos.add(m);
 				}
 			}
@@ -75,7 +75,7 @@ public class MovimientosServiceImpl implements IMovimientosService {
 			List<Movimientos> movimientosEgresos = new ArrayList<Movimientos>();
 			for (Movimientos m : movimientos) {
 				if (m.getTipo().equals("E")
-						&& (m.getFecha().get(Calendar.MONTH)+1 == mesActual && m.getFecha().get(Calendar.YEAR) == añoActual)) {
+						&& (m.getFecha().getMonthValue() == mesActual && m.getFecha().getYear() == añoActual)) {
 					movimientosEgresos.add(m);
 				}
 			}
@@ -91,9 +91,9 @@ public class MovimientosServiceImpl implements IMovimientosService {
 		String ctaDestino, double interesEnvia) {
 		Usuario usuarioEnvia = usuario1.get();
 		Usuario usuarioRecibe = usuario2.get();
-		Movimientos movimientoEnvia = new Movimientos("E", Calendar.getInstance(), monto, interesEnvia, ctaDestino, "transferencia",
+		Movimientos movimientoEnvia = new Movimientos("E", fechaActual, monto, interesEnvia, ctaDestino, "transferencia",
 				usuarioEnvia);
-		Movimientos movimientoRecibe = new Movimientos("I", Calendar.getInstance(), monto, 0, ctaDestino, "transferencia",
+		Movimientos movimientoRecibe = new Movimientos("I", fechaActual, monto, 0, ctaDestino, "transferencia",
 				usuarioRecibe);
 		double nuevoSaldoEnvia = Math.round((usuarioEnvia.getSaldo() - monto - interesEnvia) * 100.0) / 100.0;
 		double nuevoSaldoRecibe = Math.round((usuarioRecibe.getSaldo() + monto) * 100.0) / 100.0;
@@ -110,7 +110,7 @@ public class MovimientosServiceImpl implements IMovimientosService {
 		Usuario usuario1 = usuario.get();
 		double interes = (dinero / 100) * usuario1.getInteres();
 		double interesRedondeado =  Math.round(interes * 100.0) / 100.0;
-		Movimientos movimiento = new Movimientos("E", Calendar.getInstance(), dinero, interesRedondeado, "Retira en cajero", "extraccion",
+		Movimientos movimiento = new Movimientos("E", fechaActual, dinero, interesRedondeado, "Retira en cajero", "extraccion",
 				usuario1);
 		double nuevoSaldo = Math.round((usuario1.getSaldo() - dinero - interes) * 100.0) / 100.0;
 		usuario1.setSaldo(nuevoSaldo);
@@ -122,7 +122,7 @@ public class MovimientosServiceImpl implements IMovimientosService {
 	public void generarDeposito(Usuario usuario, double dinero) {
 		double interes = (dinero / 100) * usuario.getInteres();
 		double interesRedondeado =  Math.round(interes * 100.0) / 100.0;
-		Movimientos movimiento = new Movimientos("I", Calendar.getInstance(), dinero, interesRedondeado, usuario.getNumeroCuenta(), "deposito",
+		Movimientos movimiento = new Movimientos("I", fechaActual, dinero, interesRedondeado, usuario.getNumeroCuenta(), "deposito",
 				usuario);
 		double nuevoSaldo = Math.round((usuario.getSaldo() + dinero - interes) * 100.0) / 100.0;
 		usuario.setSaldo(nuevoSaldo);
@@ -135,7 +135,7 @@ public class MovimientosServiceImpl implements IMovimientosService {
 		double totalMensual = 0;
 		List<Movimientos> movimientos = findAll();
 		for (Movimientos m : movimientos) {
-			if (m.getTipo().equals("I") && m.getFecha().get(Calendar.YEAR) == añoActual
+			if (m.getTipo().equals("I") && m.getFecha().getYear() == añoActual
 					&& m.getDescripcion().equals("deposito")) {
 				totalMensual = totalMensual + m.getMonto();
 			}
@@ -149,7 +149,7 @@ public class MovimientosServiceImpl implements IMovimientosService {
 		double totalMensual = 0;
 		List<Movimientos> movimientos = findAll();
 		for (Movimientos m : movimientos) {
-			if (m.getFecha().get(Calendar.YEAR) == añoActual && m.getDescripcion().equals("extraccion")) {
+			if (m.getFecha().getYear() == añoActual && m.getDescripcion().equals("extraccion")) {
 				totalMensual = totalMensual + m.getMonto();
 			}
 		}
@@ -162,7 +162,7 @@ public class MovimientosServiceImpl implements IMovimientosService {
 		double interesTotal = 0;
 		List<Movimientos> movimientos = findAll();
 		for (Movimientos m : movimientos) {
-			if (m.getFecha().get(Calendar.YEAR) == añoActual) {
+			if (m.getFecha().getYear() == añoActual) {
 				interesTotal += m.getInteres();
 			}
 		}
