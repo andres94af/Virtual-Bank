@@ -17,9 +17,6 @@
 		<div class="card" style="border-radius: 1rem;">
 			<div class="card-body p-4 p-lg-4 text-black">
 				<form th:action="@{/usuario/registrarUsuario}">
-					<input type="hidden" id="tipoDeCuenta" name="tipoDeCuenta"
-						th:value="${tipoDeCuenta}" /> <input type="hidden" id="interes"
-						name="interes" th:value="${interes}" />
 					<div class="form-row">
 						<div class="form-group col-md-4">
 							<label for="nombre">Nombre :</label> <input type="text"
@@ -51,10 +48,9 @@
 						<div class="form-group col-md-4">
 							<label for="genero">Genero :</label> <select id="genero"
 								name="genero" class="form-control" required>
-								<option selected>--Seleccione una opción--</option>
+								<option value="Otro" selected>Otro</option>
 								<option value="Femenino">Femenino</option>
 								<option value="Masculino">Masculino</option>
-								<option value="Otro">Otro</option>
 							</select>
 						</div>
 					</div>

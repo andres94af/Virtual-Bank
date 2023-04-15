@@ -1,6 +1,7 @@
 package com.virtualbank.service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -90,6 +91,19 @@ public class UsuarioServiceImpl implements IUsuarioService{
 		clientes.removeIf(c->c.getRol().equals("ADMIN"));
 		if(clientes.isEmpty()) return 0;
 		return clientes.size();
+	}
+
+	@Override
+	public int calcularEdad(Usuario usuario) {
+		Calendar ahora = Calendar.getInstance();
+		Calendar nacimiento = usuario.getFechaNacimiento();
+		int edad = ahora.get(Calendar.YEAR) - nacimiento.get(Calendar.YEAR);
+    if (ahora.get(Calendar.MONTH) < nacimiento.get(Calendar.MONTH) ||
+        (ahora.get(Calendar.MONTH) == nacimiento.get(Calendar.MONTH) &&
+         ahora.get(Calendar.DAY_OF_MONTH) < nacimiento.get(Calendar.DAY_OF_MONTH))) {
+        edad--;
+    }
+		return edad;
 	}
 
 }

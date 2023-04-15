@@ -15,4 +15,5 @@ public interface IUsuarioService {
 	Optional<Usuario> findByNumeroCuenta(String numeroCuenta);
 	int numeroClientesActivosInactivos(String valor);
 	int clientesRegistrados();
+	int calcularEdad(Usuario usuario);
 }

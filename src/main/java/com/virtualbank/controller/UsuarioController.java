@@ -29,16 +29,15 @@ public class UsuarioController {
 	private MailService mailService;
 
 	BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+	
 
 //METODO QUE LLEVA AL FORMULARIO PARA CREAR DISTINTOS TIPOS DE CUENTA
 	@GetMapping("/registro/{tipo}")
 	private String vistaRegistroCBasica(Model model, @PathVariable String tipo) {
 		if (tipo.equals("c_basica")) {
 			model.addAttribute("tipoDeCuenta", "Cuenta Básica");
-			model.addAttribute("interes", 1.5);
 		} else if (tipo.equals("c_joven")) {
 			model.addAttribute("tipoDeCuenta", "Cuenta Joven");
-			model.addAttribute("interes", 0);
 		} else {
 			return "redirect:/cuentas";
 		}
@@ -57,10 +56,17 @@ public class UsuarioController {
 		usuario.setRol("CLI");
 		usuario.setSaldo(0);
 		usuario.setFechaRegistro(Calendar.getInstance());
+		if(usuarioService.calcularEdad(usuario)<30) {
+			usuario.setTipoDeCuenta("Cuenta Joven");
+			usuario.setInteres(0);
+		}else {
+			usuario.setTipoDeCuenta("Cuenta Básica");
+			usuario.setInteres(1.5);
+		}
 		usuarioService.save(usuario);
 		registrarIngresoService.nuevoRegistro(usuario);
 		mailService.enviarMailDeRegistro(usuario);
-		return "redirect:/login";
+		return "redirect:/login?c_exito";
 	}
 
 //METODO QUE DA EL ATRIBUTO A "idusuario" AL MOMENTO DE INICIAR SESION Y REDIRECCIONA A LA VISTA QUE CORRESPONDE
@@ -85,6 +91,13 @@ public class UsuarioController {
 	private String actualizarUsuario(Usuario usuario) {
 		usuario.setPassword(encoder.encode(usuario.getPassword()));
 		usuario.setActivo(usuario.isActivo());
+		if(usuarioService.calcularEdad(usuario)<30) {
+			usuario.setTipoDeCuenta("Cuenta Joven");
+			usuario.setInteres(0);
+		}else {
+			usuario.setTipoDeCuenta("Cuenta Básica");
+			usuario.setInteres(1.5);
+		}
 		usuarioService.save(usuario);
 		return "redirect:/cliente/home_cliente?act";
 	}
