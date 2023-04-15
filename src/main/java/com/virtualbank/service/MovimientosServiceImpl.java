@@ -93,7 +93,7 @@ public class MovimientosServiceImpl implements IMovimientosService {
 		Usuario usuarioRecibe = usuario2.get();
 		Movimientos movimientoEnvia = new Movimientos("E", fechaActual, monto, interesEnvia, ctaDestino, "transferencia",
 				usuarioEnvia);
-		Movimientos movimientoRecibe = new Movimientos("I", fechaActual, monto, 0, ctaDestino, "transferencia",
+		Movimientos movimientoRecibe = new Movimientos("I", fechaActual, monto, 0, ctaDestino, "Transferencia",
 				usuarioRecibe);
 		double nuevoSaldoEnvia = Math.round((usuarioEnvia.getSaldo() - monto - interesEnvia) * 100.0) / 100.0;
 		double nuevoSaldoRecibe = Math.round((usuarioRecibe.getSaldo() + monto) * 100.0) / 100.0;
@@ -110,7 +110,7 @@ public class MovimientosServiceImpl implements IMovimientosService {
 		Usuario usuario1 = usuario.get();
 		double interes = (dinero / 100) * usuario1.getInteres();
 		double interesRedondeado =  Math.round(interes * 100.0) / 100.0;
-		Movimientos movimiento = new Movimientos("E", fechaActual, dinero, interesRedondeado, "Retira en cajero", "extraccion",
+		Movimientos movimiento = new Movimientos("E", fechaActual, dinero, interesRedondeado, "Retira en cajero", "Extraccion",
 				usuario1);
 		double nuevoSaldo = Math.round((usuario1.getSaldo() - dinero - interes) * 100.0) / 100.0;
 		usuario1.setSaldo(nuevoSaldo);
@@ -122,7 +122,7 @@ public class MovimientosServiceImpl implements IMovimientosService {
 	public void generarDeposito(Usuario usuario, double dinero) {
 		double interes = (dinero / 100) * usuario.getInteres();
 		double interesRedondeado =  Math.round(interes * 100.0) / 100.0;
-		Movimientos movimiento = new Movimientos("I", fechaActual, dinero, interesRedondeado, usuario.getNumeroCuenta(), "deposito",
+		Movimientos movimiento = new Movimientos("I", fechaActual, dinero, interesRedondeado, "Depósito cta. propia", "Deposito",
 				usuario);
 		double nuevoSaldo = Math.round((usuario.getSaldo() + dinero - interes) * 100.0) / 100.0;
 		usuario.setSaldo(nuevoSaldo);
@@ -136,7 +136,7 @@ public class MovimientosServiceImpl implements IMovimientosService {
 		List<Movimientos> movimientos = findAll();
 		for (Movimientos m : movimientos) {
 			if (m.getTipo().equals("I") && m.getFecha().getYear() == añoActual
-					&& m.getDescripcion().equals("deposito")) {
+					&& m.getDescripcion().equals("Deposito")) {
 				totalMensual = totalMensual + m.getMonto();
 			}
 		}
@@ -149,7 +149,7 @@ public class MovimientosServiceImpl implements IMovimientosService {
 		double totalMensual = 0;
 		List<Movimientos> movimientos = findAll();
 		for (Movimientos m : movimientos) {
-			if (m.getFecha().getYear() == añoActual && m.getDescripcion().equals("extraccion")) {
+			if (m.getFecha().getYear() == añoActual && m.getDescripcion().equals("Extraccion")) {
 				totalMensual = totalMensual + m.getMonto();
 			}
 		}

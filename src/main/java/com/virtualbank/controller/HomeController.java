@@ -1,8 +1,11 @@
 package com.virtualbank.controller;
 
+import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,8 +14,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import com.lowagie.text.DocumentException;
 import com.virtualbank.model.Movimientos;
 import com.virtualbank.model.Usuario;
+import com.virtualbank.service.ExportarMovimientosPDF;
 import com.virtualbank.service.IMovimientosService;
 import com.virtualbank.service.IRegistroIngresoService;
 import com.virtualbank.service.IUsuarioService;
@@ -39,9 +44,10 @@ public class HomeController {
 	public String home(Model model, HttpSession session) {
 		model.addAttribute("titulo", "Hola desde home");
 		model.addAttribute("sesion", session.getAttribute("idusuario"));
-		if (session.getAttribute("idusuario")!=null) {
+		if (session.getAttribute("idusuario") != null) {
 			Usuario usuario = usuarioService.findById(Integer.parseInt(session.getAttribute("idusuario").toString())).get();
-			if(usuario.getRol().equals("ADMIN")) return "redirect:/administrador";
+			if (usuario.getRol().equals("ADMIN"))
+				return "redirect:/administrador";
 		}
 		return "home/home";
 	}
@@ -93,7 +99,28 @@ public class HomeController {
 		model.addAttribute("titulo", "Movimientos históricos");
 		model.addAttribute("sesion", session.getAttribute("idusuario"));
 		model.addAttribute("movimientos", movimientosService.findByUsuario(usuario.get()));
+		session.setAttribute("movimientos", movimientosService.findByUsuario(usuario.get()));
 		return "cliente/movimientos";
+	}
+
+//METODO QUE GENERA EL PDF DE LOS MOVIMIENTOS(FILTRADOS O NO)
+	@GetMapping("/cliente/movimientos/exportarPdf")
+	private void expertarListadoEnPDF(HttpSession session, HttpServletResponse response) {
+		@SuppressWarnings("unchecked")
+		List<Movimientos> movimientosAExportar = (List<Movimientos>) session.getAttribute("movimientos");
+		if (movimientosAExportar != null) {
+			response.setContentType("application/pdf");
+			LocalDate fechaActual = LocalDate.now();
+			String cabecera = "Content-Disposition";
+			String valor = "attachment; filename=Detalle_" + fechaActual + ".pdf";
+			response.setHeader(cabecera, valor);
+			ExportarMovimientosPDF exporter = new ExportarMovimientosPDF(movimientosAExportar);
+			try {
+				exporter.exportar(response);
+			} catch (DocumentException | IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 //METODO QUE FILTRA LOS MOVIMIENTOS DEL CLIENTE
@@ -112,6 +139,7 @@ public class HomeController {
 					.collect(Collectors.toList());
 		}
 		model.addAttribute("movimientos", movimientos);
+		session.setAttribute("movimientos", movimientos);
 		return "cliente/movimientos";
 	}
 
