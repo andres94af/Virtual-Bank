@@ -17,6 +17,7 @@
 		<div class="card" style="border-radius: 1rem;">
 			<div class="card-body p-4 p-lg-4 text-black">
 				<form th:action="@{/usuario/registrarUsuario}">
+				<input type="hidden" class="form-control" id="tipoDeCuenta" name="tipoDeCuenta" th:value="${tipoDeCuenta}">
 					<div class="form-row">
 						<div class="form-group col-md-4">
 							<label for="nombre">Nombre :</label> <input type="text"

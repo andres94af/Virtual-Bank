@@ -29,7 +29,6 @@ public class UsuarioController {
 	private MailService mailService;
 
 	BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-	
 
 //METODO QUE LLEVA AL FORMULARIO PARA CREAR DISTINTOS TIPOS DE CUENTA
 	@GetMapping("/registro/{tipo}")
@@ -38,32 +37,42 @@ public class UsuarioController {
 			model.addAttribute("tipoDeCuenta", "Cuenta Básica");
 		} else if (tipo.equals("c_joven")) {
 			model.addAttribute("tipoDeCuenta", "Cuenta Joven");
+		} else if (tipo.equals("admin")) {
+			model.addAttribute("tipoDeCuenta", "Cuenta Admin");
 		} else {
-			return "redirect:/cuentas";
+			return "redirect:/";
 		}
 		model.addAttribute("titulo", "Registro de clientes");
 		return "home/registro";
 	}
 
-//METODO PARA GUARDAR USUARIO EN LA BBDD
-//TAMBIEN GENERA PRIMER REGISTRO DE INGRESO
+//METODO PARA GUARDAR USUARIO EN LA BBDD, GENERAR EL PRIMER REGISTRO DE INGRESO Y ENVIA MAIL DE REGISTRO
 	@GetMapping("/registrarUsuario")
 	private String registrarUsuario(Usuario usuario) {
-		usuario.setPassword(encoder.encode(usuario.getPassword()));
 		usuario.setActivo(true);
-		usuario.setLimite(500);
-		usuario.setNumeroCuenta(usuarioService.generarNumeroCuenta());
-		usuario.setRol("CLI");
-		usuario.setSaldo(0);
-		usuario.setFechaRegistro(LocalDate.now());
 		usuario.setDni(usuario.getDni().toUpperCase());
-		if(usuarioService.calcularEdad(usuario)<30) {
-			usuario.setTipoDeCuenta("Cuenta Joven");
+		usuario.setFechaRegistro(LocalDate.now());
+		if (usuario.getTipoDeCuenta().equals("Cuenta Admin")) {
+			usuario.setRol("ADMIN");
+			usuario.setTipoDeCuenta("Cuenta Admin");
+			usuario.setSaldo(0);
+			usuario.setLimite(0);
+			usuario.setNumeroCuenta("S/N");
 			usuario.setInteres(0);
-		}else {
-			usuario.setTipoDeCuenta("Cuenta Básica");
-			usuario.setInteres(1.5);
+		} else {
+			if (usuarioService.calcularEdad(usuario) < 30) {
+				usuario.setTipoDeCuenta("Cuenta Joven");
+				usuario.setInteres(0);
+			} else {
+				usuario.setTipoDeCuenta("Cuenta Básica");
+				usuario.setInteres(1.5);
+			}
+			usuario.setRol("CLI");
+			usuario.setSaldo(0);
+			usuario.setLimite(500);
+			usuario.setNumeroCuenta(usuarioService.generarNumeroCuenta());
 		}
+		usuario.setPassword(encoder.encode(usuario.getPassword()));
 		usuarioService.save(usuario);
 		registrarIngresoService.nuevoRegistro(usuario);
 		mailService.enviarMailDeRegistro(usuario);
@@ -81,9 +90,9 @@ public class UsuarioController {
 			if (user.get().getRol().equals("ADMIN")) {
 				return "redirect:/administrador";
 			} else {
-				if(user.get().isActivo()) {					
-				return "redirect:/cliente/home_cliente";
-				}else {
+				if (user.get().isActivo()) {
+					return "redirect:/cliente/home_cliente";
+				} else {
 					return "redirect:/cliente/home_cliente?inactivo";
 				}
 			}
@@ -96,10 +105,10 @@ public class UsuarioController {
 	private String actualizarUsuario(Usuario usuario) {
 		usuario.setPassword(encoder.encode(usuario.getPassword()));
 		usuario.setActivo(usuario.isActivo());
-		if(usuarioService.calcularEdad(usuario)<30) {
+		if (usuarioService.calcularEdad(usuario) < 30) {
 			usuario.setTipoDeCuenta("Cuenta Joven");
 			usuario.setInteres(0);
-		}else {
+		} else {
 			usuario.setTipoDeCuenta("Cuenta Básica");
 			usuario.setInteres(1.5);
 		}
