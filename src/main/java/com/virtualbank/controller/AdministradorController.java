@@ -108,7 +108,7 @@ public class AdministradorController {
 		Optional<Usuario> clienteOpt = usuarioService.findById(id);
 		model.addAttribute("sesion", session.getAttribute("idusuario"));
 		model.addAttribute("titulo", "Información detallada del cliente");
-		if (!clienteOpt.isEmpty()) {
+		if (clienteOpt.isPresent()) {
 			Usuario cliente = clienteOpt.get();
 			model.addAttribute("cliente", cliente);
 		} else {
