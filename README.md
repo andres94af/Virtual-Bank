@@ -14,8 +14,9 @@
 
 **Como ADMIN:**
 - Ver informacion básica y detallada de los clientes
+- Crear nuevas cuentas de administradores
 - Ver métricas básicas del banco
-- Bloquear cuentas
+- Bloquear cuentas de clientes
 
 **Como CLI:**
 - Crear distintos tipos de cuenta segun la edad
