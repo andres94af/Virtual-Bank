@@ -247,9 +247,6 @@ public class HomeController {
 //SI ESTA LOGUEADO REDIRECCIONA A HOME
 	@GetMapping("/login")
 	public String loginPage(Model model, HttpSession session) {
-		if (session.getAttribute("idusuario") != null) {
-			return "redirect:/";
-		}
 		model.addAttribute("titulo", "Inicia sesión en tu cuenta");
 		return "login";
 	}

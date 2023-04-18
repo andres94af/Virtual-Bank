@@ -16,6 +16,12 @@ public class SpringBootSecurity extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private UserDetailsService userDetailService;
+	
+
+	@Bean
+	public BCryptPasswordEncoder getEnecoder() {
+		return new BCryptPasswordEncoder();
+	}
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -26,15 +32,11 @@ public class SpringBootSecurity extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable().authorizeRequests()
 				.antMatchers("/", "/cuentas", "/usuario/registro/c**", "/contacto/**").permitAll()
-				.antMatchers("/cliente/**").hasAnyRole("CLI")
-				.antMatchers("/administrador/**", "/usuario/registro/admin").hasAnyRole("ADMIN")
-				.and().formLogin().loginPage("/login").permitAll().defaultSuccessUrl("/usuario/acceder")
+				.antMatchers("/cliente/**").hasRole("CLI")
+				.antMatchers("/administrador/**", "/usuario/registro/admin").hasRole("ADMIN")
+				.and().formLogin().loginPage("/login").permitAll()
+				.defaultSuccessUrl("/usuario/acceder")
 				.and().logout().logoutSuccessUrl("/?logout");
-	}
-
-	@Bean
-	public BCryptPasswordEncoder getEnecoder() {
-		return new BCryptPasswordEncoder();
 	}
 
 }

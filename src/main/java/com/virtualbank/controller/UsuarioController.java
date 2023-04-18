@@ -82,7 +82,7 @@ public class UsuarioController {
 //METODO QUE DA EL ATRIBUTO A "idusuario" AL MOMENTO DE INICIAR SESION Y REDIRECCIONA A LA VISTA QUE CORRESPONDE
 //SEGUN SI ES CLI O ADMIN
 	@GetMapping("/acceder")
-	public String iniciarSesion(HttpSession session, Model model) {
+	public String iniciarSesion(HttpSession session) {
 		Optional<Usuario> user = usuarioService.findById(Integer.parseInt(session.getAttribute("idusuario").toString()));
 		if (user.isPresent()) {
 			session.setAttribute("idusuario", user.get().getId());

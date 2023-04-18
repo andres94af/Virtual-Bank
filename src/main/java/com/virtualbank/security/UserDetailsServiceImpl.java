@@ -22,8 +22,6 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 	@Autowired
 	HttpSession session;
 
-//	private BCryptPasswordEncoder bCrypt = new BCryptPasswordEncoder();
-
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		Optional<Usuario> optionalUser = usuarioService.findByEmail(username);
